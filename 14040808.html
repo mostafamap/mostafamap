@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه‌گر تقریبی حق بیمه دوران خدمت وظیفه عمومی (خرید سربازی)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            min-height: 100vh;
+            padding-bottom: 60px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #1a5276, #2874a6);
+            color: white;
+            padding: 25px 0;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            text-align: center;
+        }
+        
+        .header-link {
+            position: absolute;
+            left: 20px;
+            bottom: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .header-link:hover {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+        }
+        
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            border: none;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            margin: 0 auto 20px;
+            text-align: right;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            color: #2874a6;
+            font-weight: 700;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .result-container {
+            background: linear-gradient(135deg, #e8f4fc 0%, #d5e8f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+        
+        .result-title {
+            color: #27ae60;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .footer {
+            background: linear-gradient(to right, #1a5276, #2874a6);
+            color: white;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+        
+        .footer-links a {
+            color: #f1c40f;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 28px;
+            color: #f1c40f;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .form-text {
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .blinking-text {
+            animation: blink 2s infinite;
+            color: #e74c3c;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .input-group-text {
+            direction: ltr;
+        }
+        
+        .number-input {
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .pension-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            height: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .pension-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        
+        .pension-card.selected {
+            border-color: #3498db;
+            background-color: #e1f5fe;
+        }
+        
+        .pension-card.highlighted {
+            border-color: #f1c40f;
+            background-color: #fff9e6;
+        }
+        
+        .pension-card.highlighted.selected {
+            border-color: #3498db;
+            background-color: #e1f5fe;
+        }
+        
+        .pension-card-title {
+            font-weight: 700;
+            color: #1a5276;
+            margin-bottom: 10px;
+        }
+        
+        .pension-card-details {
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+        
+        .calculation-steps {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .step {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #bdc3c7;
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .result-highlight {
+            background-color: #fef9e7;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #d35400;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .formula-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: right;
+        }
+        
+        .info-alert {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-right: 4px solid #3498db;
+        }
+        
+        .detailed-calculation {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: right;
+            overflow-x: auto;
+        }
+        
+        .calculation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            min-width: 600px;
+        }
+        
+        .calculation-table th, .calculation-table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        
+        .calculation-table th {
+            background-color: #e9ecef;
+        }
+        
+        .period-selection {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .period-option {
+            cursor: pointer;
+            padding: 10px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .period-option:hover {
+            background-color: #d5e8f7;
+        }
+        
+        .period-option.selected {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .card {
+                margin-bottom: 15px;
+            }
+            .header-link {
+                position: relative;
+                left: 0;
+                bottom: 0;
+                display: block;
+                text-align: center;
+                margin-top: 10px;
+            }
+            
+            .calculation-table th, .calculation-table td {
+                padding: 6px 4px;
+                font-size: 0.75rem;
+            }
+            
+            .detailed-calculation {
+                padding: 10px;
+            }
+            
+            .formula-box {
+                padding: 10px;
+            }
+            
+            .result-container {
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .calculation-table th, .calculation-table td {
+                padding: 4px 2px;
+                font-size: 0.7rem;
+            }
+            
+            .calculation-table {
+                min-width: 500px;
+            }
+            
+            .btn-calculate, .btn-reset {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هدر -->
+    <div class="header text-center">
+        <div class="container">
+            <h1 class="mb-3"><i class="bi bi-calculator"></i>محاسبه‌گر تقریبی حق بیمه دوران خدمت وظیفه عمومی (خرید سربازی)</h1>
+            <p class="lead">منطبق بر برنامه هفتم پیشرفت در سال 1404</p>
+            
+            <!-- لینک کم رنگ در هدر -->
+            <a href="https://kargozin.com/" class="header-link" target="_blank">
+                <i class="bi bi-link-45deg"></i> kargozin.com
+            </a>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="text-center">مجله کارگزینی</h2>
+        
+        <!-- کارت انتخاب صندوق بازنشستگی -->
+        <div class="card mb-4">
+            <div class="card-header text-center">انتخاب صندوق بازنشستگی</div>
+            <div class="card-body">
+                <div class="row" id="pension-funds-container">
+                    <!-- صندوق‌های بازنشستگی با JavaScript پر می‌شوند -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- کارت ورود داده -->
+        <div class="card mb-4" id="data-input-card">
+            <div class="card-header text-center">ورود داده</div>
+            <div class="card-body">
+                <div class="info-alert">
+                    <h5><i class="bi bi-info-circle"></i> نکات مهم:</h5>
+                    <ul class="text-right" style="padding-right: 20px;">
+                        <li>باتوجه به دسترسی خود یکی از دو قسمت {بیمه سهم کارمند} یا {آخرین حقوق و دستمزد مبنای پرداخت حق بیمه} را وارد کنید</li>
+                        <li>خدمت سربازی را می‌توانید به صورت ماه (مثلاً 24) یا روز (مثلاً 730) وارد کنید</li>
+                        <li><strong>توجه:</strong> برای مدت خدمت تا ۳۰ ماه، عدد را به صورت ماه وارد کنید. برای مدت بیشتر از ۳۰ ماه، به صورت روز وارد شود</li>
+                    </ul>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="employee-insurance" class="form-label">بیمه سهم کارمند</label>
+                            <input type="text" class="form-control number-input formatted-number" id="employee-insurance" placeholder="مبلغ بیمه سهم کارمند">
+                            <div class="form-text blinking-text">از روی مبلغ درج شده در فیش حقوقی که معمولاً میتوانید آنرا در ستون کسور و بدهی‌های با همین عنوان بیمه سهم کارمند یا عناوین مشابه پیدا کنید.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="last-salary" class="form-label">آخرین حقوق یا دستمزد مبنای پرداخت حق بیمه</label>
+                            <input type="text" class="form-control number-input formatted-number" id="last-salary" placeholder="مبلغ آخرین حقوق">
+                            <div class="form-text blinking-text">ارسالی از طریق پیامک تامین اجتماعی، محاسبه از روی حکم پس از کسر اقلام غیر مشمول، میانگین حقوق یا دستمزد مبنای پرداخت حق بیمه یکسال قبل از تاریخ درخواست</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="military-service" class="form-label">خدمت سربازی</label>
+                            <input type="text" class="form-control number-input" id="military-service" placeholder="ماه یا روز (مثلاً 24 یا 730)">
+                            <div class="form-text blinking-text">تا ۳۰ ماه به صورت ماه وارد شود. بیشتر از ۳۰ ماه به صورت روز وارد شود</div>
+                            <div class="form-text" id="month-conversion-result"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- انتخاب دوره زمانی برای تامین اجتماعی -->
+                <div id="period-selection-container" class="period-selection" style="display: none;">
+                    <h5><i class="bi bi-calendar-event"></i> انتخاب دوره زمانی برای محاسبه حداقل دستمزد (صندوق تامین اجتماعی)</h5>
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <div class="period-option" data-period="first-half">
+                                <h6>۶ ماهه اول ۱۴۰۴</h6>
+                                <p>حداقل دستمزد: ۱۰۷,۳۷۳,۳۳۶ ریال</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="period-option" data-period="second-half">
+                                <h6>۶ ماهه دوم ۱۴۰۴</h6>
+                                <p>حداقل دستمزد: ۱۰۳,۹۰۹,۶۸۰ ریال</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <button class="btn btn-calculate" id="calculate-btn">
+                        <i class="bi bi-calculator me-2"></i> محاسبه
+                    </button>
+                    <button class="btn btn-reset" id="reset-btn">
+                        <i class="bi bi-arrow-clockwise me-2"></i> بازنشانی
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- کارت نتایج -->
+        <div class="card result-card" id="result-card">
+            <div class="card-header text-center">نتایج محاسبه</div>
+            <div class="card-body">
+                <div id="result-container" class="result-container">
+                    <h3 class="result-title">مبلغ تقریبی حق بیمه دوران خدمت وظیفه عمومی</h3>
+                    
+                    <div class="calculation-steps">
+                        <div class="step">
+                            <span>سهم بیمه شده (کارمند):</span>
+                            <span class="step-value" id="employee-share-result">0 ریال</span>
+                        </div>
+                        <div class="step">
+                            <span>سهم کارفرما:</span>
+                            <span class="step-value" id="employer-share-result">0 ریال</span>
+                        </div>
+                        <div class="step">
+                            <span>سهم دولت:</span>
+                            <span class="step-value" id="government-share-result">0 ریال</span>
+                        </div>
+                        <div class="step">
+                            <span>جمع کل:</span>
+                            <span class="step-value" id="total-result">0 ریال</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-highlight">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <span id="highlight-result">سهم کارمند: 0 ریال</span>
+                    </div>
+                    
+                    <div id="detailed-calculation" class="detailed-calculation">
+                        <!-- محاسبات دقیق در اینجا نمایش داده می‌شود -->
+                    </div>
+                    
+                    <div class="formula-box">
+                        <h5>فرمول محاسبه:</h5>
+                        <p id="formula-details">فرمول محاسبه بر اساس صندوق انتخابی نمایش داده می‌شود</p>
+                    </div>
+                </div>
+                
+                <div id="error-message" class="alert alert-danger mt-3" style="display: none;">
+                    لطفاً تمام فیلدهای لازم را پر کنید و یک صندوق بازنشستگی را انتخاب نمایید.
+                </div>
+            </div>
+        </div>
+        
+        <!-- لینک‌های مفید -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="card-title text-center"><i class="bi bi-info-circle"></i> لینک‌های مفید</h4>
+                <div class="row">
+                    <div class="mt-4">
+                        <a href="https://account.tamin.ir/auth/login" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> درگاه ورود به سامانه خدمات الکترونیک صندوق بازنشستگی تامین اجتماعی
+                        </a>
+                        <a href="https://eservices.tamin.ir/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> سامانه خدمات الکترونیک (سرویس اصلی)
+                        </a>
+                        <a href="https://es.tamin.ir/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> سامانه خدمات الکترونیک (سرویس کمکی)
+                        </a>
+                        <a href="https://www.tamin.ir/content/files/hoseini/376407.mp4" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> فیلم راهنمای خرید سربازی در صندوق بازنشستگی تامین اجتماعی
+                        </a>
+                        <a href="https://eservices.cspf.ir/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> درگاه ورود به سامانه خدمات الکترونیک صندوق بازنشستگی کشوری
+                        </a>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <a href="https://kargozin.com/" target="_blank" class="btn btn-primary">
+                            <i class="bi bi-google me-2"></i> مجله کارگزینی
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- فوتر -->
+    <footer class="footer text-center mt-5">
+        <div class="container">
+            <p class="mb-3">🍀🤞🌻 توسعه‌یافته توسط <span class="logo">مجله کارگزینی</span> | نسخه 1404/08/08 🌻🤞🍀</p>
+            <div class="footer-links mb-3">
+                <a href="mailto:mustafa.alimohammadi@gmail.com">
+                    <i class="bi bi-envelope me-1"></i> توسعه دهنده: مصطفی علیمحمدی
+                </a>
+                <a href="https://kargozin.com/" target="_blank">
+                    <i class="bi bi-globe me-1"></i> مجله کارگزینی/سامانه اداری و استخدامی 
+                </a>
+                <a href="https://t.me/+W10Ae66GdN40MDg0" target="_blank">
+                    <i class="bi bi-telegram me-1"></i> گروه تبادل نظر مجله کارگزینی
+                </a>
+                <a href="http://t.me/+eRSSofhaSpo4ZGNk" target="_blank">
+                    <i class="bi bi-telegram me-1"></i> کانال تلگرام مجله کارگزینی
+                </a>
+            </div>
+            <p>© کلیه حقوق این محاسبه‌گر برای سایت مجله کارگزینی محفوظ است</p>
+        </div>
+    </footer>
+
+    <script>
+        // داده‌های صندوق‌های بازنشستگی
+        const pensionFunds = [
+            { name: "بازنشستگی کشوری", employee: 9, employer: 13.5, government: "تامین کسری", total: 22.5, highlighted: true },
+            { name: "تامین اجتماعی", employee: 7, employer: 20, government: "سه درصد بیمه بیکاری", total: 30, highlighted: true },
+            { name: "بانک مرکزی", employee: 8.5, employer: 17, government: "-", total: 25.5 },
+            { name: "مشترک بانکها", employee: 9, employer: 21, government: "-", total: 30 },
+            { name: "آينده ساز", employee: 7, employer: 22, government: "-", total: 29 },
+            { name: "صدا و سيما", employee: 8, employer: 16, government: "-", total: 24 },
+            { name: "بنادر وكشتيراني ايران", employee: 7, employer: 14, government: "-", total: 21 },
+            { name: "هواپيمايي جمهوري اسلامي ايران (هما)", employee: 7, employer: 14, government: "-", total: 21 },
+            { name: "بيمه ايران", employee: 9, employer: 18, government: "-", total: 27 },
+            { name: "بازنشستگی و معذوريت جهاد", employee: 9, employer: 13.5, government: "-", total: 22.5 },
+            { name: "کارکنان فولاد", employee: 10, employer: 20, government: "-", total: 30 },
+            { name: "بيمه مرکزی ايران", employee: 9, employer: 18, government: "-", total: 27 },
+            { name: "شهرداري تهران", employee: 7, employer: 14, government: "-", total: 21 },
+            { name: "صنعت نفت", employee: 6, employer: 19, government: "-", total: 25 },
+            { name: "بازنشستگي وبيمه ارتش", employee: 9, employer: 13.5, government: "-", total: 22.5 },
+            { name: "شركت مخابرات", employee: 8.5, employer: 12.75, government: "-", total: 21.25 },
+            { name: "صنايع مس ايران", employee: 10, employer: 20, government: "-", total: 30 },
+            { name: "سپاه پاسداران", employee: 9, employer: 13.5, government: "-", total: 22.5 },
+            { name: "نيروهاي انتظامي", employee: 9, employer: 13.5, government: "-", total: 22.5 }
+        ];
+
+        // حداقل دستمزد سال‌های مختلف
+        const minSalaries = {
+            "1404-first-half": 107373336,
+            "1404-second-half": 103909680
+        };
+
+        // متغیرهای سراسری
+        let selectedPensionFund = null;
+        let selectedPeriod = null;
+
+        // تابع برای بارگذاری صندوق‌های بازنشستگی
+        function loadPensionFunds() {
+            const container = document.getElementById('pension-funds-container');
+            
+            pensionFunds.forEach((fund, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4';
+                
+                const cardClass = fund.highlighted ? 'pension-card highlighted' : 'pension-card';
+                
+                col.innerHTML = `
+                    <div class="card ${cardClass}" data-index="${index}">
+                        <div class="card-body text-center">
+                            <h5 class="pension-card-title">${fund.name}</h5>
+                            <div class="pension-card-details">
+                                <div>سهم بیمه شده: ${fund.employee}%</div>
+                                <div>سهم کارفرما: ${fund.employer}%</div>
+                                <div>سهم دولت: ${fund.government}</div>
+                                <div>جمع: ${fund.total}%</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(col);
+            });
+            
+            // اضافه کردن رویداد کلیک به کارت‌ها
+            document.querySelectorAll('.pension-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    // حذف انتخاب از همه کارت‌ها
+                    document.querySelectorAll('.pension-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    
+                    // اضافه کردن انتخاب به کارت کلیک شده
+                    this.classList.add('selected');
+                    
+                    // ذخیره صندوق انتخاب شده
+                    const index = parseInt(this.getAttribute('data-index'));
+                    selectedPensionFund = pensionFunds[index];
+                    
+                    // نمایش یا پنهان کردن انتخاب دوره زمانی
+                    const periodContainer = document.getElementById('period-selection-container');
+                    if (selectedPensionFund.name === "تامین اجتماعی") {
+                        periodContainer.style.display = 'block';
+                        // حذف انتخاب دوره قبلی
+                        selectedPeriod = null;
+                        document.querySelectorAll('.period-option').forEach(option => {
+                            option.classList.remove('selected');
+                        });
+                    } else {
+                        periodContainer.style.display = 'none';
+                        selectedPeriod = null;
+                    }
+                    
+                    // اسکرول به قسمت ورود داده
+                    document.getElementById('data-input-card').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // اضافه کردن رویداد کلیک به گزینه‌های دوره زمانی
+            document.querySelectorAll('.period-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // حذف انتخاب از همه گزینه‌ها
+                    document.querySelectorAll('.period-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // اضافه کردن انتخاب به گزینه کلیک شده
+                    this.classList.add('selected');
+                    
+                    // ذخیره دوره انتخاب شده
+                    selectedPeriod = this.getAttribute('data-period');
+                });
+            });
+        }
+
+        // تابع تبدیل اعداد فارسی به انگلیسی
+        function convertPersianToEnglishNumbers(str) {
+            if (!str) return '';
+            
+            const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            
+            let result = str.toString();
+            
+            // تبدیل اعداد فارسی
+            for (let i = 0; i < 10; i++) {
+                result = result.replace(new RegExp(persianNumbers[i], 'g'), englishNumbers[i]);
+            }
+            
+            // تبدیل اعداد عربی
+            for (let i = 0; i < 10; i++) {
+                result = result.replace(new RegExp(arabicNumbers[i], 'g'), englishNumbers[i]);
+            }
+            
+            return result;
+        }
+        
+        // تابع فرمت‌دهی اعداد با جداکننده هزارگان
+        function formatNumber(number) {
+            if (number === null || number === undefined || isNaN(number)) return '';
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // تابع تبدیل اعداد فرمت شده به عدد خالص
+        function parseFormattedNumber(formattedNumber) {
+            if (!formattedNumber) return 0;
+            
+            // تبدیل اعداد فارسی و عربی به انگلیسی
+            const cleanNumber = convertPersianToEnglishNumbers(formattedNumber);
+            
+            // حذف همه کاراکترهای غیرعددی به جز نقطه برای اعداد اعشاری
+            const numericString = cleanNumber.replace(/[^\d.]/g, '');
+            
+            return parseFloat(numericString) || 0;
+        }
+
+        // تابع محاسبه تعداد ماه‌های خدمت سربازی
+        function calculateMilitaryMonths(value) {
+            const numericValue = parseFormattedNumber(value);
+            
+            // اگر عدد کمتر یا مساوی 30 باشد (تا ۲.۵ سال سربازی)، فرض می‌کنیم تعداد ماه است
+            if (numericValue <= 30) {
+                return numericValue;
+            }
+            
+            // اگر عدد بزرگتر از 30 باشد، فرض می‌کنیم تعداد روز است و به ماه تبدیل می‌کنیم
+            // برای اینکه 730 روز دقیقاً برابر با 24 ماه شود، از تقسیم 730/30.4167 استفاده می‌کنیم
+            const daysInMonth = 730 / 24; // 30.4167 روز در هر ماه
+            return numericValue / daysInMonth;
+        }
+
+        // تابع نمایش تبدیل روز به ماه
+        function showMonthConversion(value) {
+            const numericValue = parseFormattedNumber(value);
+            const conversionResult = document.getElementById('month-conversion-result');
+            
+            if (numericValue > 30) {
+                const months = calculateMilitaryMonths(numericValue);
+                conversionResult.innerHTML = `<strong>تبدیل به ماه:</strong> ${numericValue} روز = ${months.toFixed(4)} ماه`;
+                conversionResult.style.color = '#28a745';
+            } else {
+                conversionResult.innerHTML = '';
+            }
+        }
+
+        // تابع محاسبه حق بیمه برای صندوق تامین اجتماعی
+        function calculateTaminEjtemaei(baseSalary, militaryMonths) {
+            let minSalary;
+            
+            if (selectedPeriod === "first-half") {
+                minSalary = minSalaries["1404-first-half"];
+            } else if (selectedPeriod === "second-half") {
+                minSalary = minSalaries["1404-second-half"];
+            } else {
+                // اگر دوره انتخاب نشده، از 6 ماهه دوم استفاده کن
+                minSalary = minSalaries["1404-second-half"];
+            }
+            
+            // محاسبه کل حق بیمه سربازی
+            const totalInsurance = baseSalary * militaryMonths * 0.23; // 23% ثابت
+            
+            // محاسبه سهم کارفرما بر اساس حداقل دستمزد
+            const employerShare = minSalary * militaryMonths * 0.16; // 16% ثابت
+            
+            // سهم بیمه شده = کل حق بیمه - سهم کارفرما
+            const employeeShare = totalInsurance - employerShare;
+            
+            // سهم دولت صفر است
+            const governmentShare = 0;
+            
+            return {
+                employeeShare,
+                employerShare,
+                governmentShare,
+                total: totalInsurance,
+                details: {
+                    totalInsurance,
+                    minSalary,
+                    baseSalary,
+                    militaryMonths,
+                    period: selectedPeriod
+                }
+            };
+        }
+
+        // تابع محاسبه حق بیمه برای صندوق بازنشستگی کشوری
+        function calculateBazneshasteKeshvari(baseSalary, militaryMonths) {
+            const totalPercentage = selectedPensionFund.total;
+            const totalAmount = baseSalary * militaryMonths * (totalPercentage / 100);
+            
+            const employeeShare = totalAmount * (selectedPensionFund.employee / totalPercentage);
+            const employerShare = totalAmount * (selectedPensionFund.employer / totalPercentage);
+            
+            return {
+                employeeShare,
+                employerShare,
+                governmentShare: 0,
+                total: totalAmount,
+                details: {
+                    baseSalary,
+                    militaryMonths,
+                    totalPercentage
+                }
+            };
+        }
+
+        // تابع محاسبه حق بیمه برای سایر صندوق‌ها
+        function calculateOtherFunds(baseSalary, militaryMonths) {
+            const employeeShare = baseSalary * militaryMonths * (selectedPensionFund.employee / 100);
+            const employerShare = baseSalary * militaryMonths * (selectedPensionFund.employer / 100);
+            
+            let governmentShare = 0;
+            if (typeof selectedPensionFund.government === 'number') {
+                governmentShare = baseSalary * militaryMonths * (selectedPensionFund.government / 100);
+            }
+            
+            return {
+                employeeShare,
+                employerShare,
+                governmentShare,
+                total: employeeShare + employerShare + governmentShare,
+                details: {
+                    baseSalary,
+                    militaryMonths
+                }
+            };
+        }
+
+        // تابع نمایش محاسبات دقیق برای صندوق تامین اجتماعی
+        function showTaminEjtemaeiDetails(result) {
+            const details = result.details;
+            const periodText = details.period === "first-half" ? "۶ ماهه اول ۱۴۰۴" : "۶ ماهه دوم ۱۴۰۴";
+            
+            return `
+                <h5>محاسبات دقیق برای صندوق تامین اجتماعی (${periodText}):</h5>
+                <table class="calculation-table">
+                    <tr>
+                        <th>شرح</th>
+                        <th>مقدار</th>
+                        <th>محاسبه</th>
+                        <th>مبلغ (ریال)</th>
+                    </tr>
+                    <tr>
+                        <td>حقوق پایه</td>
+                        <td>${formatNumber(details.baseSalary)} ریال</td>
+                        <td>-</td>
+                        <td>${formatNumber(details.baseSalary)}</td>
+                    </tr>
+                    <tr>
+                        <td>مدت خدمت</td>
+                        <td>${details.militaryMonths.toFixed(4)} ماه</td>
+                        <td>-</td>
+                        <td>${details.militaryMonths.toFixed(4)}</td>
+                    </tr>
+                    <tr>
+                        <td>کل حق بیمه سربازی</td>
+                        <td>23%</td>
+                        <td>${formatNumber(details.baseSalary)} × ${details.militaryMonths.toFixed(4)} × 0.23</td>
+                        <td>${formatNumber(Math.round(details.totalInsurance))}</td>
+                    </tr>
+                    <tr>
+                        <td>سهم کارفرما (بر اساس حداقل دستمزد ${periodText})</td>
+                        <td>16%</td>
+                        <td>${formatNumber(details.minSalary)} × ${details.militaryMonths.toFixed(4)} × 0.16</td>
+                        <td>${formatNumber(Math.round(result.employerShare))}</td>
+                    </tr>
+                    <tr>
+                        <td>سهم بیمه شده</td>
+                        <td>${formatNumber(Math.round(details.totalInsurance))} - ${formatNumber(Math.round(result.employerShare))}</td>
+                        <td>کل حق بیمه - سهم کارفرما</td>
+                        <td>${formatNumber(Math.round(result.employeeShare))}</td>
+                    </tr>
+                </table>
+                <p class="mt-3"><strong>توضیحات:</strong> برای بیمه دوره سربازی، قانون تخفیف‌هایی در نظر گرفته شده است:</p>
+                <ul>
+                    <li>سهم کارفرما از 20% به 16% کاهش یافته (4% کاهش)</li>
+                    <li>سهم بیمه بیکاری 3% حذف شده (زیرا سربازان مشمول بیمه بیکاری نمی‌شوند)</li>
+                    <li>سهم بیمه‌شونده 7% بدون تغییر باقی مانده</li>
+                    <li>جمع حق بیمه از 30% به 23% کاهش یافته (7% کاهش)</li>
+                    <li>مشارکت دولت بابت سهم کارفرمایی معادل حداقل دستمزد و مازاد آن بر عهده بیمه شده است</li>
+                </ul>
+            `;
+        }
+
+        // تابع نمایش محاسبات دقیق برای صندوق بازنشستگی کشوری
+        function showBazneshasteKeshvariDetails(result) {
+            const details = result.details;
+            
+            return `
+                <h5>محاسبات دقیق برای صندوق بازنشستگی کشوری:</h5>
+                <table class="calculation-table">
+                    <tr>
+                        <th>شرح</th>
+                        <th>مقدار</th>
+                        <th>محاسبه</th>
+                        <th>مبلغ (ریال)</th>
+                    </tr>
+                    <tr>
+                        <td>حقوق پایه</td>
+                        <td>${formatNumber(details.baseSalary)} ریال</td>
+                        <td>-</td>
+                        <td>${formatNumber(details.baseSalary)}</td>
+                    </tr>
+                    <tr>
+                        <td>مدت خدمت</td>
+                        <td>${details.militaryMonths.toFixed(4)} ماه</td>
+                        <td>-</td>
+                        <td>${details.militaryMonths.toFixed(4)}</td>
+                    </tr>
+                    <tr>
+                        <td>کل حق بیمه سربازی</td>
+                        <td>${details.totalPercentage}%</td>
+                        <td>${formatNumber(details.baseSalary)} × ${details.militaryMonths.toFixed(4)} × 0.225</td>
+                        <td>${formatNumber(Math.round(result.total))}</td>
+                    </tr>
+                    <tr>
+                        <td>سهم بیمه شده</td>
+                        <td>${selectedPensionFund.employee}%</td>
+                        <td>${formatNumber(Math.round(result.total))} × (9 / 22.5)</td>
+                        <td>${formatNumber(Math.round(result.employeeShare))}</td>
+                    </tr>
+                    <tr>
+                        <td>سهم کارفرما</td>
+                        <td>${selectedPensionFund.employer}%</td>
+                        <td>${formatNumber(Math.round(result.total))} × (13.5 / 22.5)</td>
+                        <td>${formatNumber(Math.round(result.employerShare))}</td>
+                    </tr>
+                </table>
+                <p class="mt-3"><strong>فرمول محاسبه:</strong></p>
+                <p>کل مبلغ حق بیمه = دستمزد مبنای پرداخت حق بیمه زمان تقاضا یا میانگین دستمزد طی یکسال قبل از زمان درخواست (هر کدام بیشتر باشد) × مدت خدمت × نرخ حق بیمه (22.5%)</p>
+            `;
+        }
+
+        // تابع نمایش محاسبات دقیق برای سایر صندوق‌ها
+        function showOtherFundsDetails(result) {
+            const details = result.details;
+            
+            return `
+                <h5>محاسبات دقیق برای ${selectedPensionFund.name}:</h5>
+                <table class="calculation-table">
+                    <tr>
+                        <th>شرح</th>
+                        <th>مقدار</th>
+                        <th>محاسبه</th>
+                        <th>مبلغ (ریال)</th>
+                    </tr>
+                    <tr>
+                        <td>حقوق پایه</td>
+                        <td>${formatNumber(details.baseSalary)} ریال</td>
+                        <td>-</td>
+                        <td>${formatNumber(details.baseSalary)}</td>
+                    </tr>
+                    <tr>
+                        <td>مدت خدمت</td>
+                        <td>${details.militaryMonths.toFixed(4)} ماه</td>
+                        <td>-</td>
+                        <td>${details.militaryMonths.toFixed(4)}</td>
+                    </tr>
+                    <tr>
+                        <td>سهم بیمه شده</td>
+                        <td>${selectedPensionFund.employee}%</td>
+                        <td>${formatNumber(details.baseSalary)} × ${details.militaryMonths.toFixed(4)} × ${selectedPensionFund.employee/100}</td>
+                        <td>${formatNumber(Math.round(result.employeeShare))}</td>
+                    </tr>
+                    <tr>
+                        <td>سهم کارفرما</td>
+                        <td>${selectedPensionFund.employer}%</td>
+                        <td>${formatNumber(details.baseSalary)} × ${details.militaryMonths.toFixed(4)} × ${selectedPensionFund.employer/100}</td>
+                        <td>${formatNumber(Math.round(result.employerShare))}</td>
+                    </tr>
+                    ${typeof selectedPensionFund.government === 'number' ? `
+                    <tr>
+                        <td>سهم دولت</td>
+                        <td>${selectedPensionFund.government}%</td>
+                        <td>${formatNumber(details.baseSalary)} × ${details.militaryMonths.toFixed(4)} × ${selectedPensionFund.government/100}</td>
+                        <td>${formatNumber(Math.round(result.governmentShare))}</td>
+                    </tr>
+                    ` : ''}
+                    <tr>
+                        <td>جمع کل</td>
+                        <td>${selectedPensionFund.total}%</td>
+                        <td>${formatNumber(Math.round(result.employeeShare))} + ${formatNumber(Math.round(result.employerShare))} + ${typeof selectedPensionFund.government === 'number' ? formatNumber(Math.round(result.governmentShare)) : '0'}</td>
+                        <td>${formatNumber(Math.round(result.total))}</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        // تابع محاسبه حق بیمه
+        function calculateInsurance() {
+            // دریافت مقادیر ورودی
+            const employeeInsurance = parseFormattedNumber(document.getElementById('employee-insurance').value);
+            const lastSalary = parseFormattedNumber(document.getElementById('last-salary').value);
+            const militaryServiceValue = document.getElementById('military-service').value;
+            const militaryMonths = calculateMilitaryMonths(militaryServiceValue);
+            
+            // اعتبارسنجی ورودی‌ها
+            if (!selectedPensionFund || (!employeeInsurance && !lastSalary) || !militaryServiceValue) {
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('result-container').style.display = 'none';
+                return;
+            }
+            
+            // برای تامین اجتماعی، بررسی انتخاب دوره زمانی
+            if (selectedPensionFund.name === "تامین اجتماعی" && !selectedPeriod) {
+                document.getElementById('error-message').innerHTML = "لطفاً دوره زمانی برای محاسبه حداقل دستمزد را انتخاب نمایید.";
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('result-container').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('error-message').style.display = 'none';
+            
+            // محاسبه حقوق پایه
+            let baseSalary = lastSalary;
+            
+            // اگر بیمه سهم کارمند وارد شده باشد، حقوق پایه را از آن محاسبه کنیم
+            if (employeeInsurance && !lastSalary) {
+                baseSalary = employeeInsurance / (selectedPensionFund.employee / 100);
+            }
+            
+            let result;
+            
+            // محاسبه بر اساس نوع صندوق
+            if (selectedPensionFund.name === "تامین اجتماعی") {
+                result = calculateTaminEjtemaei(baseSalary, militaryMonths);
+                const periodText = selectedPeriod === "first-half" ? "۶ ماهه اول ۱۴۰۴" : "۶ ماهه دوم ۱۴۰۴";
+                document.getElementById('formula-details').innerHTML = `
+                    <p>برای صندوق تامین اجتماعی (${periodText}):</p>
+                    <ul>
+                        <li>کل حق بیمه سربازی = دستمزد × مدت خدمت × 23%</li>
+                        <li>سهم کارفرما بر اساس حداقل دستمزد ${periodText} محاسبه می‌شود</li>
+                        <li>سهم بیمه شده = کل حق بیمه - سهم کارفرما</li>
+                        <li>مشارکت دولت بابت سهم کارفرمایی معادل حداقل دستمزد و مازاد آن بر عهده بیمه شده است</li>
+                    </ul>
+                `;
+                
+                // نمایش محاسبات دقیق
+                document.getElementById('detailed-calculation').innerHTML = showTaminEjtemaeiDetails(result);
+            } else if (selectedPensionFund.name === "بازنشستگی کشوری") {
+                result = calculateBazneshasteKeshvari(baseSalary, militaryMonths);
+                document.getElementById('formula-details').innerHTML = `
+                    <p>برای صندوق بازنشستگی کشوری:</p>
+                    <ul>
+                        <li>محاسبه بر اساس ${selectedPensionFund.total}% (${selectedPensionFund.employee}% سهم بیمه شده + ${selectedPensionFund.employer}% سهم کارفرما)</li>
+                        <li>کل مبلغ حق بیمه = دستمزد مبنای پرداخت حق بیمه × مدت خدمت × 22.5%</li>
+                    </ul>
+                `;
+                
+                // نمایش محاسبات دقیق
+                document.getElementById('detailed-calculation').innerHTML = showBazneshasteKeshvariDetails(result);
+            } else {
+                result = calculateOtherFunds(baseSalary, militaryMonths);
+                document.getElementById('formula-details').innerHTML = `
+                    <p>برای ${selectedPensionFund.name}:</p>
+                    <ul>
+                        <li>سهم بیمه شده: ${selectedPensionFund.employee}%</li>
+                        <li>سهم کارفرما: ${selectedPensionFund.employer}%</li>
+                        <li>سهم دولت: ${selectedPensionFund.government}</li>
+                        <li>جمع: ${selectedPensionFund.total}%</li>
+                    </ul>
+                `;
+                
+                // نمایش محاسبات دقیق
+                document.getElementById('detailed-calculation').innerHTML = showOtherFundsDetails(result);
+            }
+            
+            // نمایش نتایج
+            document.getElementById('employee-share-result').textContent = formatNumber(Math.round(result.employeeShare)) + ' ریال';
+            document.getElementById('employer-share-result').textContent = formatNumber(Math.round(result.employerShare)) + ' ریال';
+            
+            if (typeof selectedPensionFund.government === 'number' && selectedPensionFund.name !== "بازنشستگی کشوری") {
+                document.getElementById('government-share-result').textContent = formatNumber(Math.round(result.governmentShare)) + ' ریال';
+            } else {
+                document.getElementById('government-share-result').textContent = selectedPensionFund.government;
+            }
+            
+            document.getElementById('total-result').textContent = formatNumber(Math.round(result.total)) + ' ریال';
+            document.getElementById('highlight-result').textContent = `سهم کارمند: ${formatNumber(Math.round(result.employeeShare))} ریال`;
+            
+            // نمایش کارت نتایج
+            document.getElementById('result-container').style.display = 'block';
+            
+            // اسکرول به قسمت نتایج
+            document.getElementById('result-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // تابع بازنشانی فرم
+        function resetForm() {
+            document.getElementById('employee-insurance').value = '';
+            document.getElementById('last-salary').value = '';
+            document.getElementById('military-service').value = '';
+            document.getElementById('month-conversion-result').innerHTML = '';
+            
+            document.querySelectorAll('.pension-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            document.querySelectorAll('.period-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            selectedPensionFund = null;
+            selectedPeriod = null;
+            document.getElementById('period-selection-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        // افزودن رویداد برای فرمت‌دهی اعداد هنگام ورود
+        document.querySelectorAll('.formatted-number').forEach(input => {
+            input.addEventListener('input', function(e) {
+                // تبدیل اعداد فارسی و عربی به انگلیسی
+                let value = convertPersianToEnglishNumbers(this.value);
+                
+                // حذف همه کاراکترهای غیرعددی
+                value = value.replace(/[^\d]/g, '');
+                
+                if (value) {
+                    const number = parseInt(value, 10);
+                    this.value = formatNumber(number);
+                } else {
+                    this.value = '';
+                }
+            });
+        });
+
+        // اضافه کردن رویداد برای نمایش تبدیل روز به ماه
+        document.getElementById('military-service').addEventListener('input', function() {
+            showMonthConversion(this.value);
+        });
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPensionFunds();
+            
+            // اضافه کردن رویداد به دکمه محاسبه
+            document.getElementById('calculate-btn').addEventListener('click', calculateInsurance);
+            
+            // اضافه کردن رویداد به دکمه بازنشانی
+            document.getElementById('reset-btn').addEventListener('click', resetForm);
+            
+            // اضافه کردن رویداد Enter برای محاسبه
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateInsurance();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
