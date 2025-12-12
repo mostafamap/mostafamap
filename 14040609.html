@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ابزار اعتبارسنجی و جستجوی کد ملی</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #1a5276, #2874a6);
+            color: white;
+            padding: 25px 0;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .header-link {
+            position: absolute;
+            left: 20px;
+            bottom: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .header-link:hover {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+        }
+        
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            border: none;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            color: #2874a6;
+            font-weight: 700;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .result-container {
+            background: linear-gradient(135deg, #e8f4fc 0%, #d5e8f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .result-title {
+            color: #27ae60;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .link-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3498db;
+        }
+        
+        .link-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .link-box a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            display: block;
+        }
+        
+        .link-box i {
+            color: #3498db;
+            margin-left: 10px;
+        }
+        
+        .footer {
+            background: linear-gradient(to right, #1a5276, #2874a6);
+            color: white;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .footer-links a {
+            color: #f1c40f;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 28px;
+            color: #f1c40f;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .valid {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .invalid {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .not-found {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .info-icon {
+            color: #3498db;
+            cursor: help;
+            margin-right: 5px;
+        }
+        .alert-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .number-input {
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .highlight {
+            background-color: #fef9e7;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #d35400;
+        }
+        
+        .adjustment-note {
+            background-color: #fff3cd;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .card {
+                margin-bottom: 15px;
+            }
+            .header-link {
+                position: relative;
+                left: 0;
+                bottom: 0;
+                display: block;
+                text-align: center;
+                margin-top: 10px;
+            }
+        }
+        
+        .info-box {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .section-title {
+            color: #1a5276;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 8px;
+            margin-top: 20px;
+        }
+        
+        .calculation-steps {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .step {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #bdc3c7;
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .blinking-red {
+            color: red;
+            animation: blink 1.618s linear infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 576px) {
+            .input-group-text {
+                font-size: 0.75rem;
+                white-space: normal;
+                line-height: 1.4;
+                padding: 0.5rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                max-width: 100%;
+            }
+            
+            .input-group-text, 
+            .form-control {
+                width: 100% !important;
+            }
+            
+            .input-group-text {
+                border-radius: 0.375rem 0.375rem 0 0 !important;
+            }
+            
+            .form-control {
+                border-radius: 0 0 0.375rem 0.375rem !important;
+            }
+        }
+
+        @media (max-width: 768px) and (min-width: 577px) {
+            .input-group-text {
+                font-size: 0.8rem;
+                white-space: normal;
+                line-height: 1.4;
+            }
+            
+            .input-group {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر -->
+    <div class="header text-center">
+        <div class="container">
+            <h1 class="mb-3"><i class="bi bi-calculator"></i>ابزار اعتبارسنجی و جستجوی کد ملی</h1>
+            <p class="lead">بررسی صحت کد ملی و جستجوی اطلاعات استان و شهر مربوطه</p>
+            
+            <!-- لینک کم رنگ در هدر -->
+            <a href="https://kargozin.com/" class="header-link" target="_blank">
+                <i class="bi bi-link-45deg"></i> kargozin.com
+            </a>
+        </div>
+    </div>
+    
+    <!-- محتوای اصلی -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- بخش جستجوی شهر بر اساس کد ملی -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center"><i class="bi bi-search"></i> جستجوی شهر بر اساس کد ملی</h4>
+                        <div class="mb-3">
+                            <label for="nationalCode" class="form-label">کد ملی</label>
+                            <input type="text" class="form-control number-input" id="nationalCode" placeholder="مثال: 0072834561" maxlength="10">
+                        </div>
+                        <button id="validateBtn" class="btn btn-calculate w-100">بررسی و جستجو</button>
+                        <div id="validationResult" class="alert-box mt-3"></div>
+                        <div id="cityResult" class="result-container mt-3" style="display: none;">
+                            <h5 class="result-title">نتایج جستجو</h5>
+                            <div class="result-value">
+                                <div id="provinceResult"></div>
+                                <div id="cityNameResult" class="mt-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بخش جستجوی پیش‌شماره بر اساس استان و شهر -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center"><i class="bi bi-geo-alt"></i> جستجوی پیش‌شماره کد ملی</h4>
+                        <div class="mb-3">
+                            <label for="provinceSelect" class="form-label">استان</label>
+                            <select class="form-select" id="provinceSelect">
+                                <option value="">-- انتخاب استان --</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="citySelect" class="form-label">شهر</label>
+                            <select class="form-select" id="citySelect" disabled>
+                                <option value="">-- ابتدا استان را انتخاب کنید --</option>
+                            </select>
+                        </div>
+                        <button id="searchCodeBtn" class="btn btn-calculate w-100" disabled>جستجوی پیش‌شماره</button>
+                        <div id="codeResult" class="result-container mt-3" style="display: none;">
+                            <h5 class="result-title">پیش‌شماره کد ملی</h5>
+                            <div class="result-value">
+                                <div id="prefixResult"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- اطلاعات اضافی درباره کد ملی -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="card-title text-center"><i class="bi bi-info-circle"></i>اطلاعاتی درباره کد ملی</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-box p-3">
+                            <h5>ساختار کد ملی</h5>
+                            <p>کد ملی در ایران دارای ۱۰ رقم است که از چپ به راست دارای معانی زیر است:</p>
+                            <ul>
+                                <li>سه رقم اول: کد شهرستان محل صدور</li>
+                                <li>شش رقم بعدی: شماره سریال شناسنامه</li>
+                                <li>رقم آخر: رقم کنترل یا صحت</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box p-3">
+                            <h5>روش محاسبه رقم کنترل</h5>
+                            <p>برای محاسبه رقم کنترل (رقم دهم):</p>
+                            <ol>
+                                <li>هر رقم را در موقعیتش ضرب کنید (موقعیت از ۱ تا ۱۰)</li>
+                                <li>جمع حاصل‌ضرب‌ها را محاسبه کنید</li>
+                                <li>حاصل جمع را بر ۱۱ تقسیم کنید</li>
+                                <li>اگر باقیمانده کمتر از ۲ باشد، رقم کنترل برابر باقیمانده است</li>
+                                <li>اگر باقیمانده ۲ یا بیشتر باشد، رقم کنترل برابر ۱۱ منهای باقیمانده است</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- بخش نمایش مراحل محاسبه -->
+                <div class="calculation-steps mt-4" id="calculationSteps" style="display: none;">
+                    <h5 class="section-title">مراحل محاسبه رقم کنترل</h5>
+                    <div id="stepsContent"></div>
+                </div>
+            </div>
+        </div>
+        
+
+
+        <!-- لینک‌های جدید -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="card-title text-center"><i class="bi bi-info-circle"></i>لینک‌های مفید</h4>
+                <div class="row">
+        <div class="mt-4">
+            <a href="https://kargozin.com/?p=4329" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                <i class="bi bi-link me-2"></i> ممنوعیت توقیف یا مسدود کردن کد ملی افراد
+            </a>
+            <a href="https://www.sabteahval.ir/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                <i class="bi bi-link me-2"></i> سازمان ثبت احوال کشور
+            </a>
+            <a href="https://sso.my.gov.ir/login" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                <i class="bi bi-link me-2"></i> پنجره ملی خدمات دولت
+            </a>
+            <a href="https://sahim.sabteahval.ir/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                <i class="bi bi-link me-2"></i> سامانه هویت یکتای ملی ایرانیان (سهیم)
+            </a>
+        </div>
+
+                        <div class="mt-4 text-center">
+                            <a href="https://kargozin.com/" target="_blank" class="btn btn-primary">
+                                <i class="bi bi-google me-2"></i> مجله کارگزینی
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- فوتر -->
+    <footer class="footer text-center mt-5">
+        <div class="container">
+            <p class="mb-3">🍀🤞🌻 توسعه‌یافته توسط <span class="logo">مجله کارگزینی</span> | نسخه 1404/06/09 🌻🤞🍀</p>
+            <div class="footer-links mb-3">
+                <a href="mailto:mustafa.alimohammadi@gmail.com">
+                    <i class="bi bi-envelope me-1"></i> توسعه دهنده: مصطفی علیمحمدی
+                </a>
+                <a href="https://kargozin.com/" target="_blank">
+                    <i class="bi bi-globe me-1"></i> مجله کارگزینی/سامانه اداری و استخدامی 
+                </a>
+                <a href="https://t.me/+W10Ae66GdN40MDg0" target="_blank">
+                    <i class="bi bi-telegram me-1"></i> گروه تبادل نظر مجله کارگزینی
+                </a>
+                <a href="http://t.me/+eRSSofhaSpo4ZGNk" target="_blank">
+                    <i class="bi bi-telegram me-1"></i> کانال تلگرام مجله کارگزینی
+                </a>
+            </div>
+            <p>© کلیه حقوق این محاسبه‌گر برای سایت مجله کارگزینی محفوظ است</p>
+        </div>
+    </footer>
+
+    <script>
+        // داده‌های پیش‌شماره‌های کد ملی (استان و شهر)
+        const nationalCodePrefixes = [
+            {prefix: "001", province: "تهران", city: "تهران مرکزی"},
+            {prefix: "002", province: "تهران", city: "تهران مرکزی"},
+            {prefix: "003", province: "تهران", city: "تهران مرکزی"},
+            {prefix: "004", province: "تهران", city: "تهران مرکزی"},
+            {prefix: "005", province: "تهران", city: "تهران مرکزی"},
+            {prefix: "006", province: "تهران", city: "تهران مرکزی"},
+            {prefix: "007", province: "تهران", city: "تهران مرکزی"},
+            {prefix: "008", province: "تهران", city: "تهران مرکزی"},
+            {prefix: "011", province: "تهران", city: "تهران جنوب"},
+            {prefix: "015", province: "تهران", city: "تهران غرب"},
+            {prefix: "020", province: "تهران", city: "تهران شرق"},
+            {prefix: "025", province: "تهران", city: "تهران شمال"},
+            {prefix: "031", province: "البرز", city: "کرج"},
+            {prefix: "032", province: "البرز", city: "کرج"},
+            {prefix: "037", province: "قم", city: "قم"},
+            {prefix: "038", province: "قم", city: "قم"},
+            {prefix: "042", province: "تهران", city: "ورامین"},
+            {prefix: "043", province: "تهران", city: "دماوند"},
+            {prefix: "044", province: "تهران", city: "شمیران"},
+            {prefix: "045", province: "تهران", city: "شمیران"},
+            {prefix: "048", province: "تهران", city: "شهرری"},
+            {prefix: "049", province: "تهران", city: "شهرری"},
+            {prefix: "051", province: "مرکزی", city: "آشتیان"},
+            {prefix: "052", province: "مرکزی", city: "اراک"},
+            {prefix: "053", province: "مرکزی", city: "اراک"},
+            {prefix: "055", province: "مرکزی", city: "خمین"},
+            {prefix: "056", province: "مرکزی", city: "محلات"},
+            {prefix: "057", province: "مرکزی", city: "دلیجان"},
+            {prefix: "058", province: "مرکزی", city: "تفرش"},
+            {prefix: "059", province: "مرکزی", city: "ساوه"},
+            {prefix: "060", province: "مرکزی", city: "ساوه"},
+            {prefix: "061", province: "مرکزی", city: "سربند"},
+            {prefix: "062", province: "مرکزی", city: "سربند"},
+            {prefix: "063", province: "خراسان شمالی", city: "اسفراین"},
+            {prefix: "064", province: "خراسان جنوبی", city: "بیرجند"},
+            {prefix: "065", province: "خراسان جنوبی", city: "بیرجند"},
+            {prefix: "067", province: "خراسان شمالی", city: "بجنورد"},
+            {prefix: "068", province: "خراسان شمالی", city: "بجنورد"},
+            {prefix: "069", province: "خراسان رضوی", city: "تربت حیدریه"},
+            {prefix: "070", province: "خراسان رضوی", city: "تربت حیدریه"},
+            {prefix: "072", province: "خراسان رضوی", city: "تربت جام"},
+            {prefix: "073", province: "خراسان رضوی", city: "تربت جام"},
+            {prefix: "074", province: "خراسان رضوی", city: "تایباد"},
+            {prefix: "075", province: "خراسان شمالی", city: "جاجرم"},
+            {prefix: "076", province: "خراسان رضوی", city: "خواف"},
+            {prefix: "077", province: "خراسان رضوی", city: "درگز"},
+            {prefix: "078", province: "خراسان رضوی", city: "سبزوار"},
+            {prefix: "079", province: "خراسان رضوی", city: "سبزوار"},
+            {prefix: "081", province: "خراسان رضوی", city: "سرخس"},
+            {prefix: "082", province: "خراسان شمالی", city: "شیروان"},
+            {prefix: "083", province: "یزد", city: "طبس"},
+            {prefix: "084", province: "خراسان رضوی", city: "فریمان"},
+            {prefix: "085", province: "خراسان جنوبی", city: "فردوس"},
+            {prefix: "086", province: "خراسان رضوی", city: "قوچان"},
+            {prefix: "087", province: "خراسان رضوی", city: "قوچان"},
+            {prefix: "088", province: "خراسان جنوبی", city: "قائنات"},
+            {prefix: "089", province: "خراسان رضوی", city: "کاشمر"},
+            {prefix: "090", province: "خراسان رضوی", city: "کاشمر"},
+            {prefix: "091", province: "خراسان رضوی", city: "گناباد"},
+            {prefix: "092", province: "خراسان رضوی", city: "مشهد"},
+            {prefix: "093", province: "خراسان رضوی", city: "مشهد"},
+            {prefix: "094", province: "خراسان رضوی", city: "مشهد"},
+            {prefix: "096", province: "خراسان رضوی", city: "مشهد منطقه یک"},
+            {prefix: "097", province: "خراسان رضوی", city: "مشهد منطقه دو"},
+            {prefix: "098", province: "خراسان رضوی", city: "مشهد منطقه سه"},
+            {prefix: "105", province: "خراسان رضوی", city: "نیشابور"},
+            {prefix: "106", province: "خراسان رضوی", city: "نیشابور"},
+            {prefix: "108", province: "اصفهان", city: "نجف آباد"},
+            {prefix: "109", province: "اصفهان", city: "نجف آباد"},
+            {prefix: "110", province: "اصفهان", city: "فلاورجان"},
+            {prefix: "111", province: "اصفهان", city: "فلاورجان"},
+            {prefix: "112", province: "اصفهان", city: "فریدونشهر"},
+            {prefix: "113", province: "اصفهان", city: "خمینی شهر"},
+            {prefix: "114", province: "اصفهان", city: "خمینی شهر"},
+            {prefix: "115", province: "اصفهان", city: "فریدن"},
+            {prefix: "116", province: "اصفهان", city: "لنجان (زرینشهر)"},
+            {prefix: "117", province: "اصفهان", city: "لنجان (زرینشهر)"},
+            {prefix: "118", province: "اصفهان", city: "اردستان"},
+            {prefix: "119", province: "اصفهان", city: "شهرضا"},
+            {prefix: "120", province: "اصفهان", city: "سمیرم"},
+            {prefix: "121", province: "اصفهان", city: "گلپایگان"},
+            {prefix: "122", province: "اصفهان", city: "خوانسار"},
+            {prefix: "123", province: "اصفهان", city: "نطنز"},
+            {prefix: "124", province: "اصفهان", city: "نائین"},
+            {prefix: "125", province: "اصفهان", city: "کاشان"},
+            {prefix: "126", province: "اصفهان", city: "کاشان"},
+            {prefix: "127", province: "اصفهان", city: "اصفهان"},
+            {prefix: "128", province: "اصفهان", city: "اصفهان"},
+            {prefix: "129", province: "اصفهان", city: "اصفهان"},
+            {prefix: "136", province: "آذربایجان شرقی", city: "تبریز"},
+            {prefix: "137", province: "آذربایجان شرقی", city: "تبریز"},
+            {prefix: "138", province: "آذربایجان شرقی", city: "تبریز"},
+            {prefix: "145", province: "اردبیل", city: "اردبیل"},
+            {prefix: "146", province: "اردبیل", city: "اردبیل"},
+            {prefix: "149", province: "آذربایجان شرقی", city: "اهر"},
+            {prefix: "150", province: "آذربایجان شرقی", city: "اهر"},
+            {prefix: "152", province: "آذربایجان شرقی", city: "میانه"},
+            {prefix: "153", province: "آذربایجان شرقی", city: "میانه"},
+            {prefix: "154", province: "آذربایجان شرقی", city: "مراغه"},
+            {prefix: "155", province: "آذربایجان شرقی", city: "مراغه"},
+            {prefix: "157", province: "آذربایجان شرقی", city: "مرند"},
+            {prefix: "158", province: "آذربایجان شرقی", city: "مرند"},
+            {prefix: "159", province: "آذربایجان شرقی", city: "هشترود"},
+            {prefix: "160", province: "آذربایجان شرقی", city: "هشترود"},
+            {prefix: "161", province: "اردبیل", city: "مغان"},
+            {prefix: "162", province: "اردبیل", city: "مغان"},
+            {prefix: "163", province: "اردبیل", city: "خلخال"},
+            {prefix: "164", province: "آذربایجان شرقی", city: "سراب"},
+            {prefix: "165", province: "آذربایجان شرقی", city: "سراب"},
+            {prefix: "166", province: "اردبیل", city: "مشکین شهر"},
+            {prefix: "167", province: "اردبیل", city: "مشکین شهر"},
+            {prefix: "168", province: "آذربایجان شرقی", city: "بناب"},
+            {prefix: "169", province: "آذربایجان شرقی", city: "آذرشهر"},
+            {prefix: "170", province: "آذربایجان شرقی", city: "اسکو"},
+            {prefix: "171", province: "آذربایجان شرقی", city: "بستان آباد"},
+            {prefix: "172", province: "آذربایجان شرقی", city: "شبستر"},
+            {prefix: "173", province: "آذربایجان شرقی", city: "هریس"},
+            {prefix: "174", province: "خوزستان", city: "اهواز"},
+            {prefix: "175", province: "خوزستان", city: "اهواز"},
+            {prefix: "181", province: "خوزستان", city: "آبادان"},
+            {prefix: "182", province: "خوزستان", city: "خرمشهر"},
+            {prefix: "183", province: "خوزستان", city: "ایذه"},
+            {prefix: "184", province: "خوزستان", city: "ایذه"},
+            {prefix: "185", province: "خوزستان", city: "بهبهان"},
+            {prefix: "186", province: "خوزستان", city: "بهبهان"},
+            {prefix: "187", province: "خوزستان", city: "شوشتر"},
+            {prefix: "188", province: "خوزستان", city: "شوشتر"},
+            {prefix: "189", province: "خوزستان", city: "شادگان"},
+            {prefix: "190", province: "خوزستان", city: "رامهرمز"},
+            {prefix: "191", province: "خوزستان", city: "رامهرمز"},
+            {prefix: "192", province: "خوزستان", city: "اندیمشک"},
+            {prefix: "193", province: "خوزستان", city: "اندیمشک"},
+            {prefix: "194", province: "خوزستان", city: "بندرماهشهر"},
+            {prefix: "195", province: "خوزستان", city: "بندرماهشهر"},
+            {prefix: "196", province: "خوزستان", city: "مسجدسلیمان"},
+            {prefix: "197", province: "خوزستان", city: "مسجدسلیمان"},
+            {prefix: "198", province: "خوزستان", city: "دشت آزادگان"},
+            {prefix: "199", province: "خوزستان", city: "دزفول"},
+            {prefix: "200", province: "خوزستان", city: "دزفول"},
+            {prefix: "202", province: "گلستان", city: "گنبد کاووس"},
+            {prefix: "203", province: "گلستان", city: "گنبد کاووس"},
+            {prefix: "205", province: "مازندران", city: "بابل"},
+            {prefix: "206", province: "مازندران", city: "بابل"},
+            {prefix: "208", province: "مازندران", city: "ساری"},
+            {prefix: "209", province: "مازندران", city: "ساری"},
+            {prefix: "211", province: "گلستان", city: "گرگان"},
+            {prefix: "212", province: "گلستان", city: "گرگان"},
+            {prefix: "213", province: "مازندران", city: "آمل"},
+            {prefix: "214", province: "مازندران", city: "آمل"},
+            {prefix: "215", province: "مازندران", city: "قائمشهر"},
+            {prefix: "216", province: "مازندران", city: "قائمشهر"},
+            {prefix: "217", province: "مازندران", city: "بهشهر"},
+            {prefix: "218", province: "مازندران", city: "بهشهر"},
+            {prefix: "219", province: "مازندران", city: "نوشهر"},
+            {prefix: "220", province: "مازندران", city: "نوشهر"},
+            {prefix: "221", province: "مازندران", city: "تنکابن"},
+            {prefix: "222", province: "مازندران", city: "نور"},
+            {prefix: "223", province: "گلستان", city: "بندرترکمن"},
+            {prefix: "224", province: "گلستان", city: "کردکوی"},
+            {prefix: "225", province: "مازندران", city: "سوادکوه"},
+            {prefix: "226", province: "گلستان", city: "علی آباد"},
+            {prefix: "227", province: "مازندران", city: "رامسر"},
+            {prefix: "228", province: "فارس", city: "شیراز"},
+            {prefix: "229", province: "فارس", city: "شیراز"},
+            {prefix: "230", province: "فارس", city: "شیراز"},
+            {prefix: "236", province: "فارس", city: "کازرون"},
+            {prefix: "237", province: "فارس", city: "کازرون"},
+            {prefix: "238", province: "فارس", city: "ممسنی"},
+            {prefix: "239", province: "فارس", city: "ممسنی"},
+            {prefix: "240", province: "فارس", city: "آباده"},
+            {prefix: "241", province: "فارس", city: "آباده"},
+            {prefix: "242", province: "فارس", city: "مرودشت"},
+            {prefix: "243", province: "فارس", city: "مرودشت"},
+            {prefix: "244", province: "فارس", city: "فیروزآباد"},
+            {prefix: "245", province: "فارس", city: "فیروزآباد"},
+            {prefix: "246", province: "فارس", city: "جهرم"},
+            {prefix: "247", province: "فارس", city: "جهرم"},
+            {prefix: "248", province: "فارس", city: "داراب"},
+            {prefix: "249", province: "فارس", city: "داراب"},
+            {prefix: "250", province: "فارس", city: "لارستان"},
+            {prefix: "251", province: "فارس", city: "لارستان"},
+            {prefix: "252", province: "فارس", city: "استهبان"},
+            {prefix: "253", province: "فارس", city: "اقلید"},
+            {prefix: "254", province: "فارس", city: "سپیدان"},
+            {prefix: "255", province: "فارس", city: "نی ریز"},
+            {prefix: "256", province: "فارس", city: "فسا"},
+            {prefix: "257", province: "فارس", city: "فسا"},
+            {prefix: "258", province: "گیلان", city: "رشت"},
+            {prefix: "259", province: "گیلان", city: "رشت"},
+            {prefix: "261", province: "گیلان", city: "آستارا"},
+            {prefix: "262", province: "گیلان", city: "طالش"},
+            {prefix: "263", province: "گیلان", city: "طالش"},
+            {prefix: "264", province: "گیلان", city: "بندرانزلی"},
+            {prefix: "265", province: "گیلان", city: "رودبار"},
+            {prefix: "266", province: "گیلان", city: "فومن"},
+            {prefix: "267", province: "گیلان", city: "صومعه سرا"},
+            {prefix: "268", province: "گیلان", city: "رودسر"},
+            {prefix: "269", province: "گیلان", city: "رودسر"},
+            {prefix: "270", province: "گیلان", city: "لنگرود"},
+            {prefix: "271", province: "گیلان", city: "لاهیجان"},
+            {prefix: "272", province: "گیلان", city: "لاهیجان"},
+            {prefix: "273", province: "گیلان", city: "آستانه"},
+            {prefix: "274", province: "آذربایجان غربی", city: "ارومیه"},
+            {prefix: "275", province: "آذربایجان غربی", city: "ارومیه"},
+            {prefix: "279", province: "آذربایجان غربی", city: "خوی"},
+            {prefix: "280", province: "آذربایجان غربی", city: "خوی"},
+            {prefix: "282", province: "آذربایجان غربی", city: "ماکو"},
+            {prefix: "283", province: "آذربایجان غربی", city: "ماکو"},
+            {prefix: "284", province: "آذربایجان غربی", city: "سلماس"},
+            {prefix: "285", province: "آذربایجان غربی", city: "سلماس"},
+            {prefix: "286", province: "آذربایجان غربی", city: "مهاباد"},
+            {prefix: "287", province: "آذربایجان غربی", city: "مهاباد"},
+            {prefix: "288", province: "آذربایجان غربی", city: "سردشت"},
+            {prefix: "289", province: "آذربایجان غربی", city: "پیرانشهر"},
+            {prefix: "290", province: "آذربایجان غربی", city: "نقده"},
+            {prefix: "291", province: "آذربایجان غربی", city: "سیه چشمه (چالدران)"},
+            {prefix: "292", province: "آذربایجان غربی", city: "بوکان"},
+            {prefix: "293", province: "آذربایجان غربی", city: "شاهین دژ"},
+            {prefix: "294", province: "آذربایجان غربی", city: "تکاب"},
+            {prefix: "295", province: "آذربایجان غربی", city: "اشنویه"},
+            {prefix: "296", province: "آذربایجان غربی", city: "میاندوآب"},
+            {prefix: "297", province: "آذربایجان غربی", city: "میاندوآب"},
+            {prefix: "298", province: "کرمان", city: "کرمان"},
+            {prefix: "299", province: "کرمان", city: "کرمان"},
+            {prefix: "302", province: "کرمان", city: "جیرفت"},
+            {prefix: "303", province: "کرمان", city: "جیرفت"},
+            {prefix: "304", province: "کرمان", city: "رفسنجان"},
+            {prefix: "305", province: "کرمان", city: "رفسنجان"},
+            {prefix: "306", province: "کرمان", city: "سیرجان"},
+            {prefix: "307", province: "کرمان", city: "سیرجان"},
+            {prefix: "308", province: "کرمان", city: "زرند"},
+            {prefix: "309", province: "کرمان", city: "زرند"},
+            {prefix: "310", province: "کرمان", city: "بم"},
+            {prefix: "311", province: "کرمان", city: "بم"},
+            {prefix: "312", province: "کرمان", city: "بافت"},
+            {prefix: "313", province: "کرمان", city: "بافت"},
+            {prefix: "314", province: "کرمان", city: "شهربابک"},
+            {prefix: "315", province: "کرمان", city: "کهنوج"},
+            {prefix: "316", province: "کرمان", city: "کهنوج"},
+            {prefix: "317", province: "کرمان", city: "بردسیر"},
+            {prefix: "318", province: "کرمان", city: "گلباف"},
+            {prefix: "319", province: "کرمان", city: "شهداد"},
+            {prefix: "320", province: "کرمان", city: "فهرج"},
+            {prefix: "321", province: "کرمان", city: "راور"},
+            {prefix: "322", province: "کرمانشاه", city: "پاوه"},
+            {prefix: "323", province: "کرمانشاه", city: "پاوه"},
+            {prefix: "324", province: "کرمانشاه", city: "کرمانشاه"},
+            {prefix: "325", province: "کرمانشاه", city: "کرمانشاه"},
+            {prefix: "330", province: "کرمانشاه", city: "کنگاور"},
+            {prefix: "331", province: "کرمانشاه", city: "هرسین"},
+            {prefix: "332", province: "کرمانشاه", city: "گیلانغرب"},
+            {prefix: "333", province: "کرمانشاه", city: "اسلام آباد"},
+            {prefix: "334", province: "کرمانشاه", city: "اسلام آباد"},
+            {prefix: "335", province: "کرمانشاه", city: "سنقر"},
+            {prefix: "336", province: "کرمانشاه", city: "سرپل ذهاب"},
+            {prefix: "337", province: "کرمانشاه", city: "قصرشیرین"},
+            {prefix: "338", province: "هرمزگان", city: "بندرعباس"},
+            {prefix: "339", province: "هرمزگان", city: "بندرعباس"},
+            {prefix: "341", province: "هرمزگان", city: "میناب"},
+            {prefix: "342", province: "هرمزگان", city: "میناب"},
+            {prefix: "343", province: "هرمزگان", city: "بندرلنگه"},
+            {prefix: "344", province: "هرمزگان", city: "بندرلنگه"},
+            {prefix: "345", province: "هرمزگان", city: "قشم"},
+            {prefix: "346", province: "هرمزگان", city: "جاسک"},
+            {prefix: "347", province: "هرمزگان", city: "حاجی آباد"},
+            {prefix: "348", province: "هرمزگان", city: "بستک"},
+            {prefix: "349", province: "بوشهر", city: "بوشهر"},
+            {prefix: "350", province: "بوشهر", city: "بوشهر"},
+            {prefix: "351", province: "بوشهر", city: "دشتستان"},
+            {prefix: "352", province: "بوشهر", city: "دشتستان"},
+            {prefix: "353", province: "بوشهر", city: "بندر گناوه"},
+            {prefix: "354", province: "بوشهر", city: "دشتی"},
+            {prefix: "355", province: "بوشهر", city: "تنگستان"},
+            {prefix: "356", province: "بوشهر", city: "کنگان"},
+            {prefix: "357", province: "بوشهر", city: "دیر"},
+            {prefix: "358", province: "سیستان و بلوچستان", city: "ایرانشهر"},
+            {prefix: "359", province: "سیستان و بلوچستان", city: "ایرانشهر"},
+            {prefix: "361", province: "سیستان و بلوچستان", city: "زاهدان"},
+            {prefix: "362", province: "سیستان و بلوچستان", city: "زاهدان"},
+            {prefix: "364", province: "سیستان و بلوچستان", city: "چابهار"},
+            {prefix: "365", province: "سیستان و بلوچستان", city: "چابهار"},
+            {prefix: "366", province: "سیستان و بلوچستان", city: "زابل"},
+            {prefix: "367", province: "سیستان و بلوچستان", city: "زابل"},
+            {prefix: "369", province: "سیستان و بلوچستان", city: "سراوان"},
+            {prefix: "370", province: "سیستان و بلوچستان", city: "سراوان"},
+            {prefix: "371", province: "سیستان و بلوچستان", city: "خاش"},
+            {prefix: "372", province: "کردستان", city: "سنندج"},
+            {prefix: "373", province: "کردستان", city: "سنندج"},
+            {prefix: "375", province: "کردستان", city: "سقز"},
+            {prefix: "376", province: "کردستان", city: "سقز"},
+            {prefix: "377", province: "کردستان", city: "بیجار"},
+            {prefix: "378", province: "کردستان", city: "بیجار"},
+            {prefix: "379", province: "کردستان", city: "قروه"},
+            {prefix: "380", province: "کردستان", city: "قروه"},
+            {prefix: "381", province: "کردستان", city: "مریوان"},
+            {prefix: "382", province: "کردستان", city: "مریوان"},
+            {prefix: "383", province: "کردستان", city: "کامیاران"},
+            {prefix: "384", province: "کردستان", city: "بانه"},
+            {prefix: "385", province: "کردستان", city: "دیواندره"},
+            {prefix: "386", province: "همدان", city: "همدان"},
+            {prefix: "387", province: "همدان", city: "همدان"},
+            {prefix: "392", province: "همدان", city: "ملایر"},
+            {prefix: "393", province: "همدان", city: "ملایر"},
+            {prefix: "394", province: "کرمانشاه", city: "کرند"},
+            {prefix: "395", province: "همدان", city: "نهاوند"},
+            {prefix: "396", province: "همدان", city: "نهاوند"},
+            {prefix: "397", province: "همدان", city: "تویسرکان"},
+            {prefix: "398", province: "همدان", city: "رزن"},
+            {prefix: "399", province: "همدان", city: "رزن"},
+            {prefix: "400", province: "همدان", city: "اسدآباد"},
+            {prefix: "401", province: "همدان", city: "اسدآباد"},
+            {prefix: "402", province: "همدان", city: "کبودرآهنگ"},
+            {prefix: "403", province: "همدان", city: "کبودرآهنگ"},
+            {prefix: "404", province: "همدان", city: "بهار"},
+            {prefix: "405", province: "همدان", city: "بهار"},
+            {prefix: "406", province: "لرستان", city: "خرم آباد"},
+            {prefix: "407", province: "لرستان", city: "خرم آباد"},
+            {prefix: "412", province: "لرستان", city: "بروجرد"},
+            {prefix: "413", province: "لرستان", city: "بروجرد"},
+            {prefix: "416", province: "لرستان", city: "الیگودرز"},
+            {prefix: "417", province: "لرستان", city: "الیگودرز"},
+            {prefix: "418", province: "لرستان", city: "الشتر"},
+            {prefix: "419", province: "لرستان", city: "کوهدشت"},
+            {prefix: "420", province: "لرستان", city: "نورآباد(دلفان)"},
+            {prefix: "421", province: "لرستان", city: "دورود"},
+            {prefix: "422", province: "کهکیلویه و بویراحمد", city: "یاسوج"},
+            {prefix: "423", province: "کهکیلویه و بویراحمد", city: "یاسوج"},
+            {prefix: "424", province: "کهکیلویه و بویراحمد", city: "دهدشت"},
+            {prefix: "425", province: "کهکیلویه و بویراحمد", city: "دهدشت"},
+            {prefix: "426", province: "کهکیلویه و بویراحمد", city: "دوگنبدان"},
+            {prefix: "427", province: "زنجان", city: "زنجان"},
+            {prefix: "428", province: "زنجان", city: "زنجان"},
+            {prefix: "431", province: "قزوین", city: "قزوین"},
+            {prefix: "432", province: "قزوین", city: "قزوین"},
+            {prefix: "436", province: "زنجان", city: "خدابنده"},
+            {prefix: "437", province: "زنجان", city: "خدابنده"},
+            {prefix: "438", province: "قزوین", city: "تاکستان"},
+            {prefix: "439", province: "قزوین", city: "تاکستان"},
+            {prefix: "440", province: "زنجان", city: "ابهر"},
+            {prefix: "441", province: "زنجان", city: "ابهر"},
+            {prefix: "442", province: "یزد", city: "یزد"},
+            {prefix: "443", province: "یزد", city: "یزد"},
+            {prefix: "444", province: "یزد", city: "اردکان"},
+            {prefix: "445", province: "یزد", city: "تفت"},
+            {prefix: "446", province: "یزد", city: "مهریز"},
+            {prefix: "447", province: "یزد", city: "بافق"},
+            {prefix: "448", province: "یزد", city: "میبد"},
+            {prefix: "449", province: "ایلام", city: "ایلام"},
+            {prefix: "450", province: "ایلام", city: "ایلام"},
+            {prefix: "451", province: "ایلام", city: "دهلران"},
+            {prefix: "452", province: "ایلام", city: "مهران"},
+            {prefix: "453", province: "ایلام", city: "شیروان و چرداول"},
+            {prefix: "454", province: "ایلام", city: "آبدانان"},
+            {prefix: "455", province: "ایلام", city: "دره شهر"},
+            {prefix: "456", province: "سمنان", city: "سمنان"},
+            {prefix: "457", province: "سمنان", city: "دامغان"},
+            {prefix: "458", province: "سمنان", city: "شاهرود"},
+            {prefix: "459", province: "سمنان", city: "شاهرود"},
+            {prefix: "460", province: "سمنان", city: "گرمسار"},
+            {prefix: "461", province: "چهارمحال و بختیاری", city: "شهرکرد"},
+            {prefix: "462", province: "چهارمحال و بختیاری", city: "شهرکرد"},
+            {prefix: "464", province: "چهارمحال و بختیاری", city: "بروجن"},
+            {prefix: "465", province: "چهارمحال و بختیاری", city: "بروجن"},
+            {prefix: "466", province: "چهارمحال و بختیاری", city: "لردگان"},
+            {prefix: "467", province: "چهارمحال و بختیاری", city: "فارسان"},
+            {prefix: "468", province: "چهارمحال و بختیاری", city: "اردل"},
+            {prefix: "469", province: "هرمزگان", city: "رودان"},
+            {prefix: "470", province: "هرمزگان", city: "گاوبندی"},
+            {prefix: "471", province: "امور خارجه", city: "امور خارجه"},
+            {prefix: "472", province: "امور خارجه", city: "امور خارجه"},
+            {prefix: "481", province: "خوزستان", city: "باغ ملک"},
+            {prefix: "482", province: "کرمان", city: "راین"},
+            {prefix: "483", province: "مازندران", city: "چالوس"},
+            {prefix: "484", province: "لرستان", city: "ازنا"},
+            {prefix: "485", province: "لرستان", city: "پلدختر"},
+            {prefix: "486", province: "گلستان", city: "کلاله"},
+            {prefix: "487", province: "گلستان", city: "رامیان"},
+            {prefix: "488", province: "گلستان", city: "مینودشت"},
+            {prefix: "489", province: "تهران", city: "ساوجبلاغ"},
+            {prefix: "490", province: "تهران", city: "شهریار"},
+            {prefix: "491", province: "تهران", city: "شهریار"},
+            {prefix: "492", province: "آذربایجان غربی", city: "پلدشت"},
+            {prefix: "493", province: "آذربایجان غربی", city: "چایپاره"},
+            {prefix: "495", province: "کرمانشاه", city: "جوانرود"},
+            {prefix: "496", province: "کرمانشاه", city: "صحنه"},
+            {prefix: "497", province: "گلستان", city: "آق قلا"},
+            {prefix: "498", province: "مازندران", city: "بابلسر"},
+            {prefix: "499", province: "مازندران", city: "نکاء"},
+            {prefix: "500", province: "مازندران", city: "هراز و محمودآباد"},
+            {prefix: "501", province: "مازندران", city: "هراز و محمودآباد"},
+            {prefix: "502", province: "همدان", city: "فامنین"},
+            {prefix: "503", province: "یزد", city: "ابرکوه"},
+            {prefix: "504", province: "اردبیل", city: "پارس آباد"},
+            {prefix: "505", province: "آذربایجان شرقی", city: "جلفا"},
+            {prefix: "506", province: "آذربایجان شرقی", city: "عجب شیر"},
+            {prefix: "507", province: "آذربایجان شرقی", city: "ملکان"},
+            {prefix: "508", province: "قزوین", city: "آبیک"},
+            {prefix: "509", province: "قزوین", city: "بوئین زهرا"},
+            {prefix: "510", province: "اصفهان", city: "شاهین شهر"},
+            {prefix: "511", province: "اصفهان", city: "شاهین شهر"},
+            {prefix: "512", province: "اصفهان", city: "سمیرم سفلی (دهاقان)"},
+            {prefix: "513", province: "فارس", city: "بوانات"},
+            {prefix: "514", province: "فارس", city: "سروستان"},
+            {prefix: "515", province: "فارس", city: "لامرد"},
+            {prefix: "516", province: "گیلان", city: "ماسال و شاندرمن"},
+            {prefix: "517", province: "گیلان", city: "سیاهکل"},
+            {prefix: "518", province: "گیلان", city: "خمام"},
+            {prefix: "519", province: "آذربایجان شرقی", city: "کلیبر"},
+            {prefix: "520", province: "سمنان", city: "میامی"},
+            {prefix: "521", province: "خراسان رضوی", city: "جغتای"},
+            {prefix: "522", province: "خراسان رضوی", city: "چناران"},
+            {prefix: "523", province: "خراسان جنوبی", city: "درمیان"},
+            {prefix: "524", province: "خراسان شمالی", city: "مانه و سملقان"},
+            {prefix: "525", province: "سیستان و بلوچستان", city: "نیک شهر"},
+            {prefix: "526", province: "خوزستان", city: "شوش"},
+            {prefix: "527", province: "خوزستان", city: "آغاجاری"},
+            {prefix: "528", province: "لرستان", city: "ویسیان"},
+            {prefix: "529", province: "بوشهر", city: "بندر دیلم"},
+            {prefix: "530", province: "سمنان", city: "مهدیشهر"},
+            {prefix: "531", province: "گلستان", city: "مراوه تپه"},
+            {prefix: "532", province: "بوشهر", city: "سعد آباد"},
+            {prefix: "533", province: "سیستان و بلوچستان", city: "شهرکی و ناروئی (زهک)"},
+            {prefix: "534", province: "ایلام", city: "بدره"},
+            {prefix: "535", province: "کرمان", city: "کوهبنان"},
+            {prefix: "536", province: "کرمان", city: "رودبار کهنوج"},
+            {prefix: "537", province: "هرمزگان", city: "فین"},
+            {prefix: "538", province: "قزوین", city: "آوج"},
+            {prefix: "539", province: "زنجان", city: "طارم علیا"},
+            {prefix: "540", province: "اصفهان", city: "خور و بیابانک"},
+            {prefix: "541", province: "اصفهان", city: "مبارکه"},
+            {prefix: "542", province: "کرمان", city: "انار"},
+            {prefix: "543", province: "یزد", city: "هرات و مروست"},
+            {prefix: "544", province: "مرکزی", city: "فراهان"},
+            {prefix: "545", province: "آذربایجان شرقی", city: "ترکمانچای"},
+            {prefix: "546", province: "فارس", city: "بیضاء"},
+            {prefix: "547", province: "فارس", city: "خشت و کمارج"},
+            {prefix: "548", province: "فارس", city: "خرامه"},
+            {prefix: "549", province: "اصفهان", city: "تیران و کرون"},
+            {prefix: "550", province: "کهکیلویه و بویراحمد", city: "لنده"},
+            {prefix: "551", province: "یزد", city: "اشکذر (صدوق)"},
+            {prefix: "552", province: "یزد", city: "نیر"},
+            {prefix: "553", province: "خراسان رضوی", city: "کلات"},
+            {prefix: "554", province: "هرمزگان", city: "خمیر"},
+            {prefix: "555", province: "چهارمحال و بختیاری", city: "کوهرنگ"},
+            {prefix: "556", province: "تهران", city: "اسلامشهر"},
+            {prefix: "557", province: "لرستان", city: "اشترینان"},
+            {prefix: "558", province: "کردستان", city: "دهگلان"},
+            {prefix: "559", province: "قزوین", city: "ضیاءآباد"},
+            {prefix: "560", province: "زنجان", city: "ماه نشان"},
+            {prefix: "561", province: "یزد", city: "بهاباد"},
+            {prefix: "562", province: "خراسان رضوی", city: "بجستان"},
+            {prefix: "563", province: "خراسان جنوبی", city: "نهبندان"},
+            {prefix: "564", province: "اصفهان", city: "جرقویه"},
+            {prefix: "565", province: "اصفهان", city: "کوهپایه"},
+            {prefix: "566", province: "اردبیل", city: "سنجبد(کوثر)"},
+            {prefix: "567", province: "آذربایجان شرقی", city: "ورزقان"},
+            {prefix: "568", province: "مازندران", city: "بندپی"},
+            {prefix: "569", province: "گیلان", city: "شفت"},
+            {prefix: "570", province: "گیلان", city: "رضوانشهر"},
+            {prefix: "571", province: "مرکزی", city: "وفس"},
+            {prefix: "572", province: "خراسان رضوی", city: "بردسکن"},
+            {prefix: "573", province: "خراسان رضوی", city: "جوین"},
+            {prefix: "574", province: "خراسان رضوی", city: "زبرخان"},
+            {prefix: "575", province: "اصفهان", city: "چادگان"},
+            {prefix: "576", province: "مازندران", city: "چهاردانگه"},
+            {prefix: "577", province: "مازندران", city: "شیرگاه"},
+            {prefix: "578", province: "مازندران", city: "دودانگه"},
+            {prefix: "579", province: "مازندران", city: "گلوگاه"},
+            {prefix: "580", province: "قزوین", city: "رودبار الموت"},
+            {prefix: "581", province: "ایلام", city: "ارکوازی (ملکشاهی)"},
+            {prefix: "582", province: "مازندران", city: "جویبار"},
+            {prefix: "583", province: "کرمان", city: "رابر"},
+            {prefix: "584", province: "همدان", city: "قلقل رود"},
+            {prefix: "585", province: "خوزستان", city: "اروندکنار"},
+            {prefix: "586", province: "هرمزگان", city: "بشاگرد"},
+            {prefix: "587", province: "زنجان", city: "افشار"},
+            {prefix: "588", province: "قزوین", city: "طارم سفلی"},
+            {prefix: "589", province: "زنجان", city: "سلطانیه"},
+            {prefix: "590", province: "قزوین", city: "رودبار شهرستان"},
+            {prefix: "591", province: "خراسان شمالی", city: "رازوجرکلان"},
+            {prefix: "592", province: "لرستان", city: "پاپی"},
+            {prefix: "593", province: "مرکزی", city: "هندودر"},
+            {prefix: "594", province: "گیلان", city: "عمارلو"},
+            {prefix: "595", province: "کرمانشاه", city: "ثلاث باباجانی"},
+            {prefix: "596", province: "کرمانشاه", city: "روانسر"},
+            {prefix: "597", province: "سیستان و بلوچستان", city: "لاشار(اسپکه)"},
+            {prefix: "598", province: "لرستان", city: "رومشکان"},
+            {prefix: "599", province: "کهکیلویه و بویراحمد", city: "بهمنی"},
+            {prefix: "600", province: "کهکیلویه و بویراحمد", city: "چاروسا"},
+            {prefix: "601", province: "اردبیل", city: "بیله سوار"},
+            {prefix: "602", province: "آذربایجان شرقی", city: "ملکان"},
+            {prefix: "603", province: "اردبیل", city: "نیر"},
+            {prefix: "604", province: "آذربایجان شرقی", city: "هوراند"},
+            {prefix: "605", province: "کرمان", city: "ریگان"},
+            {prefix: "606", province: "کرمان", city: "عنبرآباد"},
+            {prefix: "607", province: "کرمان", city: "ماهان"},
+            {prefix: "608", province: "کرمان", city: "منوجان"},
+            {prefix: "609", province: "بوشهر", city: "جم"},
+            {prefix: "610", province: "بوشهر", city: "شبانکاره"},
+            {prefix: "611", province: "سیستان و بلوچستان", city: "میرجاوه"},
+            {prefix: "612", province: "لرستان", city: "چغلوندی"},
+            {prefix: "613", province: "لرستان", city: "چگنی"},
+            {prefix: "614", province: "زنجان", city: "انگوران"},
+            {prefix: "615", province: "زنجان", city: "خرمدره"},
+            {prefix: "616", province: "ایلام", city: "ایوان"},
+            {prefix: "617", province: "مرکزی", city: "خنداب"},
+            {prefix: "618", province: "مرکزی", city: "زرند مرکزی"},
+            {prefix: "619", province: "اصفهان", city: "آران و بیدگل"},
+            {prefix: "620", province: "اصفهان", city: "باغ بهادران"},
+            {prefix: "621", province: "اصفهان", city: "بوئین و میاندشت"},
+            {prefix: "622", province: "اصفهان", city: "میمه"},
+            {prefix: "623", province: "آذربایجان شرقی", city: "صوفیان"},
+            {prefix: "624", province: "گلستان", city: "آزادشهر"},
+            {prefix: "625", province: "مازندران", city: "چمستان"},
+            {prefix: "626", province: "مازندران", city: "کجور"},
+            {prefix: "627", province: "مازندران", city: "کلاردشت"},
+            {prefix: "628", province: "گلستان", city: "گمیشان"},
+            {prefix: "629", province: "چهارمحال و بختیاری", city: "گندمان"},
+            {prefix: "630", province: "گیلان", city: "املش"},
+            {prefix: "631", province: "گیلان", city: "رحیم آباد"},
+            {prefix: "632", province: "چهارمحال و بختیاری", city: "فلارد"},
+            {prefix: "633", province: "چهارمحال و بختیاری", city: "کیار"},
+            {prefix: "634", province: "ایلام", city: "شیروان لومار"},
+            {prefix: "635", province: "خراسان شمالی", city: "فاروج"},
+            {prefix: "636", province: "آذربایجان شرقی", city: "چاروایماق"},
+            {prefix: "637", province: "آذربایجان غربی", city: "انزل"},
+            {prefix: "638", province: "آذربایجان غربی", city: "سیلوانه"},
+            {prefix: "639", province: "آذربایجان غربی", city: "سیمینه"},
+            {prefix: "640", province: "آذربایجان غربی", city: "شوط"},
+            {prefix: "641", province: "کرمانشاه", city: "حمیل"},
+            {prefix: "642", province: "سمنان", city: "بیارجمند"},
+            {prefix: "643", province: "خراسان رضوی", city: "احمدآباد"},
+            {prefix: "644", province: "خراسان رضوی", city: "تخت جلگه"},
+            {prefix: "645", province: "سیستان و بلوچستان", city: "سرباز"},
+            {prefix: "646", province: "کردستان", city: "سروآباد"},
+            {prefix: "647", province: "همدان", city: "شراء و پیشخوار"},
+            {prefix: "648", province: "فارس", city: "ارسنجان"},
+            {prefix: "649", province: "فارس", city: "اوز"},
+            {prefix: "650", province: "خراسان رضوی", city: "رشتخوار"},
+            {prefix: "651", province: "خراسان رضوی", city: "فیض آباد"},
+            {prefix: "652", province: "خراسان جنوبی", city: "زیرکوه"},
+            {prefix: "653", province: "گیلان", city: "سنگر"},
+            {prefix: "654", province: "فارس", city: "حاجی آباد (زرین دشت)"},
+            {prefix: "655", province: "فارس", city: "خفر"},
+            {prefix: "656", province: "فارس", city: "گراش"},
+            {prefix: "657", province: "فارس", city: "مهر"},
+            {prefix: "658", province: "تهران", city: "پاکدشت"},
+            {prefix: "659", province: "تهران", city: "فیروزکوه"},
+            {prefix: "660", province: "اصفهان", city: "دولت آباد"},
+            {prefix: "661", province: "خوزستان", city: "هندیجان"},
+            {prefix: "662", province: "خوزستان", city: "رامشیر"},
+            {prefix: "663", province: "خوزستان", city: "اندیکا"},
+            {prefix: "664", province: "تهران", city: "کهریزک"},
+            {prefix: "665", province: "فارس", city: "سعادت آباد"},
+            {prefix: "666", province: "تهران", city: "رباط کریم"},
+            {prefix: "667", province: "هرمزگان", city: "ابوموسی"},
+            {prefix: "668", province: "سیستان و بلوچستان", city: "سیب و سوران"},
+            {prefix: "669", province: "سیستان و بلوچستان", city: "قصرقند"},
+            {prefix: "670", province: "فارس", city: "آباده طشک"},
+            {prefix: "671", province: "فارس", city: "جویم"},
+            {prefix: "672", province: "فارس", city: "خنج"},
+            {prefix: "673", province: "فارس", city: "شیبکوه"},
+            {prefix: "674", province: "کردستان", city: "کرانی"},
+            {prefix: "675", province: "آذربایجان غربی", city: "کشاورز"},
+            {prefix: "676", province: "کردستان", city: "نمشیر"},
+            {prefix: "677", province: "آذربایجان غربی", city: "تخت سلیمان"},
+            {prefix: "678", province: "فارس", city: "اشکنان"},
+            {prefix: "679", province: "فارس", city: "فراشبند"},
+            {prefix: "680", province: "خوزستان", city: "هویزه"},
+            {prefix: "681", province: "فارس", city: "قنقری (خرم بید)"},
+            {prefix: "682", province: "سیستان و بلوچستان", city: "بزمان"},
+            {prefix: "683", province: "فارس", city: "کوار"},
+            {prefix: "684", province: "سمنان", city: "ایوانکی"},
+            {prefix: "685", province: "خوزستان", city: "امیدیه"},
+            {prefix: "686", province: "اردبیل", city: "نمین"},
+            {prefix: "687", province: "کهکیلویه و بویراحمد", city: "باشت"},
+            {prefix: "688", province: "کهکیلویه و بویراحمد", city: "دروهان"},
+            {prefix: "689", province: "گلستان", city: "بندرگز"},
+            {prefix: "690", province: "اردبیل", city: "انگوت"},
+            {prefix: "691", province: "کرمانشاه", city: "باینگان"},
+            {prefix: "692", province: "خوزستان", city: "سردشت"},
+            {prefix: "693", province: "گیلان", city: "کوچصفهان"},
+            {prefix: "694", province: "گیلان", city: "لشت نشاء"},
+            {prefix: "695", province: "البرز", city: "طالقان"},
+            {prefix: "696", province: "چهارمحال و بختیاری", city: "میانکوه"},
+            {prefix: "697", province: "کهکیلویه و بویراحمد", city: "مارگون"},
+            {prefix: "698", province: "کرمان", city: "قلعه گنج"},
+            {prefix: "699", province: "سیستان و بلوچستان", city: "فنوج"},
+            {prefix: "700", province: "سمنان", city: "بسطام"},
+            {prefix: "701", province: "سیستان و بلوچستان", city: "دشتیاری"},
+            {prefix: "702", province: "قم", city: "کهک"},
+            {prefix: "703", province: "سیستان و بلوچستان", city: "بمپور"},
+            {prefix: "704", province: "سیستان و بلوچستان", city: "زابلی"},
+            {prefix: "705", province: "سیستان و بلوچستان", city: "شیب آب"},
+            {prefix: "706", province: "خوزستان", city: "بندر امام خمینی"},
+            {prefix: "707", province: "خوزستان", city: "شاوور"},
+            {prefix: "708", province: "زنجان", city: "ایجرود"},
+            {prefix: "709", province: "زنجان", city: "بزینه رود"},
+            {prefix: "710", province: "زنجان", city: "زنجانرود"},
+            {prefix: "711", province: "مازندران", city: "بندپی شرقی"},
+            {prefix: "712", province: "مازندران", city: "عباس آباد"},
+            {prefix: "713", province: "مازندران", city: "میاندورود"},
+            {prefix: "714", province: "اردبیل", city: "خورش رستم"},
+            {prefix: "715", province: "اردبیل", city: "سرعین"},
+            {prefix: "716", province: "خراسان جنوبی", city: "سربیشه"},
+            {prefix: "717", province: "البرز", city: "نظرآباد"},
+            {prefix: "718", province: "یزد", city: "دستگردان"},
+            {prefix: "719", province: "خراسان جنوبی", city: "سرایان"},
+            {prefix: "720", province: "سیستان و بلوچستان", city: "راسک"},
+            {prefix: "721", province: "خراسان جنوبی", city: "بشرویه"},
+            {prefix: "722", province: "کرمان", city: "ارزونیه"},
+            {prefix: "723", province: "فارس", city: "قیروکارزین"},
+            {prefix: "724", province: "خراسان رضوی", city: "خلیل آباد"},
+            {prefix: "725", province: "سیستان و بلوچستان", city: "کنارک"},
+            {prefix: "726", province: "ایلام", city: "زرین آباد"},
+            {prefix: "727", province: "ایلام", city: "موسیان"},
+            {prefix: "728", province: "قزوین", city: "البرز"},
+            {prefix: "729", province: "خوزستان", city: "گتوند"},
+            {prefix: "730", province: "خوزستان", city: "لالی"},
+            {prefix: "731", province: "اردبیل", city: "ارشق"},
+            {prefix: "732", province: "بوشهر", city: "دلوار"},
+            {prefix: "740", province: "مازندران", city: "فریدونکنار"}
+        ];
+
+        // تابع برای بررسی صحت کد ملی
+        function validateNationalCode(code) {
+            // حذف هر چیزی غیر از رقم
+            code = code.replace(/\D/g, '');
+            
+            // بررسی طول کد
+            if (code.length < 8 || code.length > 10) {
+                return {isValid: false, message: "کد ملی باید بین ۸ تا ۱۰ رقم باشد"};
+            }
+            
+            // اگر طول کمتر از ۱۰ است، به تعداد لازم صفر به ابتدا اضافه کن
+            if (code.length < 10) {
+                code = code.padStart(10, '0');
+            }
+            
+            // بررسی اینکه همه ارقام یکسان نباشند
+            if (/^(\d)\1{9}$/.test(code)) {
+                return {isValid: false, message: "کد ملی صحیح نیست (همه ارقام یکسان هستند)"};
+            }
+            
+            // محاسبه رقم کنترل
+            let sum = 0;
+            let steps = "<div class='step'><span>مراحل محاسبه:</span><span></span></div>";
+            
+            for (let i = 0; i < 9; i++) {
+                const digit = parseInt(code.charAt(i));
+                const weight = 10 - i;
+                const product = digit * weight;
+                sum += product;
+                
+                steps += `<div class='step'><span>رقم ${i+1} (${digit}) × ${weight}</span><span class='step-value'>${product}</span></div>`;
+            }
+            
+            steps += `<div class='step'><span>جمع کل</span><span class='step-value'>${sum}</span></div>`;
+            
+            let remainder = sum % 11;
+            steps += `<div class='step'><span>باقیمانده تقسیم بر ۱۱ (${sum} ÷ 11)</span><span class='step-value'>${remainder}</span></div>`;
+            
+            let controlDigit = remainder < 2 ? remainder : 11 - remainder;
+            steps += `<div class='step'><span>رقم کنترل صحیح  و محاسبه شده</span><span class='step-value'>${controlDigit}</span></div>`;
+            
+            if (parseInt(code.charAt(9)) !== controlDigit) {
+                return {
+                    isValid: false, 
+                    message: "کد ملی صحیح نیست (رقم کنترل نادرست)", 
+                    formattedCode: code,
+                    steps: steps
+                };
+            }
+            
+            return {
+                isValid: true, 
+                message: "کد ملی صحیح است", 
+                formattedCode: code,
+                steps: steps
+            };
+        }
+
+        // تابع برای جستجوی شهر بر اساس کد ملی
+        function findCityByNationalCode(code) {
+            const prefix = code.substring(0, 3);
+            const found = nationalCodePrefixes.find(item => item.prefix === prefix);
+            
+            if (found) {
+                return {found: true, province: found.province, city: found.city};
+            } else {
+                return {found: false, message: "کد ملی یافت نشد"};
+            }
+        }
+
+        // تابع برای پر کردن dropdown استان‌ها
+        function populateProvinces() {
+            const provinceSelect = document.getElementById('provinceSelect');
+            provinceSelect.innerHTML = '<option value="">-- انتخاب استان --</option>';
+            
+            const provinces = [...new Set(nationalCodePrefixes.map(item => item.province))];
+            
+            provinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province;
+                provinceSelect.appendChild(option);
+            });
+        }
+
+        // تابع برای پر کردن dropdown شهرها بر اساس استان انتخاب شده
+        function populateCities(province) {
+            const citySelect = document.getElementById('citySelect');
+            citySelect.innerHTML = '<option value="">-- انتخاب شهر --</option>';
+            
+            if (!province) {
+                citySelect.disabled = true;
+                document.getElementById('searchCodeBtn').disabled = true;
+                return;
+            }
+            
+            const cities = [...new Set(nationalCodePrefixes
+                .filter(item => item.province === province)
+                .map(item => item.city))];
+            
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+            
+            citySelect.disabled = false;
+            document.getElementById('searchCodeBtn').disabled = false;
+        }
+
+        // تابع برای جستجوی پیش‌شماره بر اساس استان و شهر
+        function findPrefixByProvinceAndCity(province, city) {
+            const found = nationalCodePrefixes.find(item => 
+                item.province === province && item.city === city);
+            
+            return found ? found.prefix : null;
+        }
+
+        // اجرای کد پس از بارگذاری کامل صفحه
+        document.addEventListener('DOMContentLoaded', function() {
+            // پر کردن dropdown استان‌ها
+            populateProvinces();
+            
+            // رویداد تغییر استان
+            document.getElementById('provinceSelect').addEventListener('change', function() {
+                populateCities(this.value);
+            });
+            
+            // رویداد جستجوی پیش‌شماره
+            document.getElementById('searchCodeBtn').addEventListener('click', function() {
+                const province = document.getElementById('provinceSelect').value;
+                const city = document.getElementById('citySelect').value;
+                
+                if (!province || !city) {
+                    alert('لطفاً استان و شهر را انتخاب کنید');
+                    return;
+                }
+                
+                const prefix = findPrefixByProvinceAndCity(province, city);
+                const resultContainer = document.getElementById('codeResult');
+                const prefixResult = document.getElementById('prefixResult');
+                
+                if (prefix) {
+                    prefixResult.textContent = `پیش‌شماره: ${prefix}`;
+                    resultContainer.style.display = 'block';
+                } else {
+                    prefixResult.textContent = 'پیش‌شماره یافت نشد';
+                    resultContainer.style.display = 'block';
+                }
+            });
+            
+            // رویداد بررسی کد ملی
+            document.getElementById('validateBtn').addEventListener('click', validateNationalCodeHandler);
+            
+            // رویداد فشار دادن کلید Enter در فیلد کد ملی
+            document.getElementById('nationalCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    validateNationalCodeHandler();
+                }
+            });
+        });
+
+        // تابع جداگانه برای مدیریت اعتبارسنجی کد ملی
+        function validateNationalCodeHandler() {
+            const nationalCode = document.getElementById('nationalCode').value;
+            const validationResult = document.getElementById('validationResult');
+            const cityResult = document.getElementById('cityResult');
+            const calculationSteps = document.getElementById('calculationSteps');
+            
+            // پاک کردن نتایج قبلی
+            validationResult.style.display = 'none';
+            cityResult.style.display = 'none';
+            calculationSteps.style.display = 'none';
+            
+            if (!nationalCode) {
+                validationResult.textContent = 'لطفاً کد ملی را وارد کنید';
+                validationResult.className = 'alert-box alert alert-warning';
+                validationResult.style.display = 'block';
+                return;
+            }
+            
+            // بررسی صحت کد ملی
+            const validation = validateNationalCode(nationalCode);
+            
+            // نمایش مراحل محاسبه
+            if (validation.steps) {
+                document.getElementById('stepsContent').innerHTML = validation.steps;
+                calculationSteps.style.display = 'block';
+            }
+            
+            if (!validation.isValid) {
+                validationResult.textContent = validation.message;
+                validationResult.className = 'alert-box alert alert-danger';
+                validationResult.style.display = 'block';
+                return;
+            }
+            
+            // جستجوی شهر بر اساس کد ملی
+            const citySearch = findCityByNationalCode(validation.formattedCode);
+            
+            // نمایش نتیجه اعتبارسنجی
+            validationResult.textContent = validation.message;
+            validationResult.className = 'alert-box alert alert-success';
+            validationResult.style.display = 'block';
+            
+
+            // نمایش نتیجه جستجوی شهر
+            if (citySearch.found) {
+                document.getElementById('provinceResult').textContent = `استان: ${citySearch.province}`;
+                document.getElementById('cityNameResult').textContent = `شهر: ${citySearch.city}`;
+            } else {
+                document.getElementById('provinceResult').textContent = 'استان: یافت نشد';
+                document.getElementById('cityNameResult').textContent = 'شهر: یافت نشد';
+            }
+            
+            cityResult.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
