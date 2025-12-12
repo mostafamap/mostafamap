@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه مقرری بیمه بیکاری</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #1a5276, #2874a6);
+            color: white;
+            padding: 25px 0;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            border: none;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            color: #2874a6;
+            font-weight: 700;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        .result-container {
+            background: linear-gradient(135deg, #e8f4fc 0%, #d5e8f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .result-title {
+            color: #27ae60;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .link-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3498db;
+        }
+        
+        .link-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .link-box a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            display: block;
+        }
+        
+        .link-box i {
+            color: #3498db;
+            margin-left: 10px;
+        }
+        
+        .footer {
+            background: linear-gradient(to right, #1a5276, #2874a6);
+            color: white;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .footer-links a {
+            color: #f1c40f;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 28px;
+            color: #f1c40f;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .number-input {
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .highlight {
+            background-color: #fef9e7;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #d35400;
+        }
+        
+        .adjustment-note {
+            background-color: #fff3cd;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .card {
+                margin-bottom: 15px;
+            }
+        }
+        
+        .info-box {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .section-title {
+            color: #1a5276;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 8px;
+            margin-top: 20px;
+        }
+        
+        .calculation-steps {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .step {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #bdc3c7;
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر -->
+    <header class="header text-center mb-5">
+        <div class="container">
+            <h1 class="mb-3"><i class="bi bi-calculator me-2"></i>محاسبه‌گر مقرری بیمه بیکاری</h1>
+            <p class="lead">به صورت تقریبی با ورود داده‌های مربوطه، مقرری بیمه بیکاری خود را محاسبه کنید</p>
+
+ <!-- لینک کم رنگ در هدر -->
+                <a href="https://kargozin.com/" class="header-link" target="_blank">
+                    <i class="bi bi-link-45deg"></i> kargozin.com
+                </a>
+            </div>
+        </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <!-- فرم ورودی اطلاعات -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="bi bi-input-cursor-text me-2"></i>اطلاعات مورد نیاز</h3>
+                        
+                        <div class="info-box">
+                            <h6><i class="bi bi-info-circle me-2"></i>مهم: مقرری بیمه بیکاری دارای محدودیت‌های زیر است:</h6>
+                            <ul class="mb-0">
+                                <li>مقرری نباید از حداقل دستمزد (<span class="highlight">103,909,680 ریال</span>) کمتر باشد</li>
+                                <li>مقرری نباید از 80% میانگین حقوق بیشتر باشد</li>
+                                <li>مقرری محاسبه شده نهایی باید بین این دو محدوده باشد</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">سابقه پرداخت بیمه (ماه)</label>
+                            <select class="form-select" id="insurance-history">
+                                <option value="">-- لطفا انتخاب کنید --</option>
+                                <option value="6-24">۶ ماه تا ۲۴ ماه</option>
+                                <option value="25-120">۲۵ تا ۱۲۰ ماه</option>
+                                <option value="121-180">۱۲۱ تا ۱۸۰ ماه</option>
+                                <option value="181-240">۱۸۱ تا ۲۴۰ ماه</option>
+                                <option value="241">از ۲۴۰ ماه به بالا</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">وضعیت تاهل</label>
+                            <select class="form-select" id="marital-status">
+                                <option value="">-- لطفا انتخاب کنید --</option>
+                                <option value="single">مجرد</option>
+                                <option value="married">متاهل</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">تعداد نفرات تحت تکفل</label>
+                            <select class="form-select" id="dependents">
+                                <option value="0">صفر نفر</option>
+                                <option value="1">یک نفر</option>
+                                <option value="2">دو نفر</option>
+                                <option value="3">سه نفر</option>
+                                <option value="4">چهار نفر</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">تعداد ماه‌های استفاده شده از بیمه بیکاری (در گذشته)</label>
+                            <input type="number" class="form-control" id="used-months" min="0" value="0">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">میانگین حقوق دریافتی در سه ماه قبل بیکاری (ریال)</label>
+                            <input type="text" class="form-control number-input" id="avg-salary" placeholder="مثال: 12,500,000">
+                        </div>
+                        
+                        <div class="text-center">
+                            <button class="btn btn-calculate" onclick="calculateBenefits()">
+                                <i class="bi bi-calculator me-2"></i>محاسبه مقرری
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- راهنمای استفاده -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="bi bi-lightbulb me-2"></i>راهنمای استفاده</h3>
+                        <div class="info-box">
+                            <h6><i class="bi bi-1-circle me-2"></i>سابقه پرداخت بیمه</h6>
+                            <p>تعداد ماه‌هایی که حق بیمه پرداخت کرده‌اید را انتخاب کنید. این مقدار بر مدت زمان دریافت مقرری تأثیر می‌گذارد.</p>
+                        </div>
+                        <div class="info-box">
+                            <h6><i class="bi bi-2-circle me-2"></i>میانگین حقوق</h6>
+                            <p>میانگین دریافتی سه ماه آخر قبل از بیکاری را وارد کنید. این مبنای محاسبه مقرری شما خواهد بود.</p>
+                        </div>
+                        <div class="info-box">
+                            <h6><i class="bi bi-3-circle me-2"></i>تکفل</h6>
+                            <p>تعداد افراد تحت تکفل شامل همسر و فرزندان (حداکثر تا 4 نفر) را وارد کنید.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- نتایج محاسبات -->
+            <div class="col-lg-6">
+                <div class="card" id="results-card"> <!-- افزودن id برای هدف‌گیری اسکرول -->
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="bi bi-graph-up me-2"></i>نتایج محاسبات</h3>
+                        
+                        <div class="result-container" id="result-container">
+                            <h4 class="result-title">نتیجه محاسبه مقرری بیمه بیکاری</h4>
+                            <div class="result-value" id="result-text"></div>
+                            <div id="adjustment-note" class="adjustment-note" style="display: none;"></div>
+                            
+                            <div class="mt-4">
+                                <h5><i class="bi bi-calculator me-2"></i>مراحل محاسبه:</h5>
+                                <div class="calculation-steps" id="calculation-steps">
+                                    <!-- مراحل محاسبه در اینجا نمایش داده می‌شود -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-center" id="initial-message">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle-fill me-2"></i>
+                                لطفاً اطلاعات خود را وارد کرده و بر روی دکمه محاسبه کلیک کنید
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- توضیحات تکمیلی -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="bi bi-journal-text me-2"></i>اطلاعات تکمیلی</h3>
+                        <div id="details">
+                            <p>این ابزار به شما کمک می‌کند تا با وارد کردن اطلاعات بیمه‌ای خود، میزان مقرری بیمه بیکاری و مدت زمان دریافت آن را محاسبه کنید. لطفاً توجه داشته باشید که نتایج محاسبات تقریبی بوده و برای اطلاعات دقیق‌تر باید به مراجع رسمی مراجعه نمایید.</p>
+                            
+                            <h5 class="section-title mt-4"><i class="bi bi-link-45deg me-2"></i>لینک‌های مفید</h5>
+                            
+                            <div class="link-box">
+                                <a href="https://www.aparat.com/video/video/embed/videohash/L4KHl/vt/frame" target="_blank">
+                                    <i class="bi bi-play-btn"></i>ویدیو آشنایی با تعهد کوتاه مدت بیمه بیکاری
+                                </a>
+                            </div>
+                            
+                            <div class="link-box">
+                                <a href="https://prkar.mcls.gov.ir/mclsstatic/trainingVideo/unemployment-insurance/register.mp4" target="_blank">
+                                    <i class="bi bi-play-btn"></i>ویدیوی آموزشی ثبت‌نام بیمه بیکاری
+                                </a>
+                            </div>
+                            
+                            <div class="link-box">
+                                <a href="https://prkar.mcls.gov.ir/Login" target="_blank">
+                                    <i class="bi bi-box-arrow-up-right"></i>سامانه جامع روابط کار
+                                </a>
+                            </div>
+                            
+                            <div class="link-box">
+                                <a href="https://eservices.tamin.ir/" target="_blank">
+                                    <i class="bi bi-box-arrow-up-right"></i>درگاه خدمات الکترونیک سازمان تامین اجتماعی
+                                </a>
+                            </div>
+                            
+                            <div class="link-box">
+                                <a href="https://es.tamin.ir/" target="_blank">
+                                    <i class="bi bi-box-arrow-up-right"></i>درگاه کمکی خدمات الکترونیک سازمان تامین اجتماعی
+                                </a>
+                            </div>
+                            
+                            <div class="mt-4 text-center">
+                                <a href="https://docs.google.com/document/d/1fVpnUmJDnKAWKR0t3ESWrKpKivHEddry/edit?usp=sharing&ouid=108057419551617506264&rtpof=true&sd=true" target="_blank" class="btn btn-primary">
+                                    <i class="bi bi-google me-2"></i>مستندات و توضیحات تکمیلی
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- فوتر -->
+    <footer class="footer text-center mt-5">
+        <div class="container">
+            <p class="mb-3">🌳 توسعه‌یافته توسط <span class="logo">مجله کارگزینی</span> | نسخه 1404/05/21 🌳</p>
+            <div class="footer-links mb-3">
+                <a href="mailto:mustafa.alimohammadi@gmail.com">
+                    <i class="bi bi-envelope me-1"></i> توسعه دهنده: مصطفی علیمحمدی
+                </a>
+                <a href="https://kargozin.com/" target="_blank">
+                    <i class="bi bi-globe me-1"></i> مجله کارگزینی/سامانه اداری و استخدامی 
+                </a>
+                <a href="https://t.me/+W10Ae66GdN40MDg0" target="_blank">
+                    <i class="bi bi-telegram me-1"></i> گروه تبادل نظر مجله کارگزینی
+                </a>
+                <a href="http://t.me/+eRSSofhaSpo4ZGNk" target="_blank">
+                    <i class="bi bi-telegram me-1"></i> کانال تلگرام مجله کارگزینی
+                </a>
+            </div>
+            <p>© کلیه حقوق برای سایت مجله کارگزینی محفوظ است</p>
+        </div>
+    </footer>
+    
+    <script>
+        // جدول اطلاعات بیمه
+        const insuranceData = {
+            "6-24": { married: 12, single: 6 },
+            "25-120": { married: 18, single: 12 },
+            "121-180": { married: 26, single: 18 },
+            "181-240": { married: 36, single: 26 },
+            "241": { married: 50, single: 36 }
+        };
+        
+        // حداقل دستمزد سال 1404
+        const MIN_WAGE = 103909680;
+        
+        // فرمت اعداد با جداکننده هزارگان
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        // تبدیل رشته عددی به عدد (حذف جداکننده‌ها)
+        function parseNumber(str) {
+            return parseInt(str.replace(/,/g, '')) || 0;
+        }
+        
+        // اعتبارسنجی فرم
+        function validateForm() {
+            const insuranceHistory = document.getElementById('insurance-history').value;
+            const maritalStatus = document.getElementById('marital-status').value;
+            const avgSalary = document.getElementById('avg-salary').value;
+            
+            if (!insuranceHistory) {
+                alert('لطفاً سابقه پرداخت بیمه را انتخاب کنید.');
+                return false;
+            }
+            
+            if (!maritalStatus) {
+                alert('لطفاً وضعیت تاهل را انتخاب کنید.');
+                return false;
+            }
+            
+            if (!avgSalary || parseNumber(avgSalary) === 0) {
+                alert('لطفاً میانگین حقوق دریافتی را وارد کنید.');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // محاسبه مقرری
+        function calculateBenefits() {
+            if (!validateForm()) return;
+            
+            // دریافت مقادیر از فرم
+            const insuranceHistory = document.getElementById('insurance-history').value;
+            const maritalStatus = document.getElementById('marital-status').value;
+            const dependents = parseInt(document.getElementById('dependents').value);
+            const usedMonths = parseInt(document.getElementById('used-months').value) || 0;
+            const avgSalary = parseNumber(document.getElementById('avg-salary').value);
+            
+            // محاسبه مدت زمان دریافت مقرری
+            const durationData = insuranceData[insuranceHistory];
+            const totalMonths = maritalStatus === 'married' ? durationData.married : durationData.single;
+            const remainingMonths = Math.max(0, totalMonths - usedMonths);
+            
+            // محاسبه مقرری ماهانه اولیه
+            const baseBenefit = (dependents * 0.1 * MIN_WAGE) + (avgSalary * 0.55);
+            const maxBenefit = avgSalary * 0.8;
+            
+            // تنظیمات و محدودیت‌ها
+            let finalBenefit = baseBenefit;
+            let adjustmentNote = '';
+            let adjustmentReason = '';
+            
+            // اعمال محدودیت‌ها
+            if (baseBenefit < MIN_WAGE) {
+                adjustmentReason = 'min_wage';
+                adjustmentNote = 'مقرری محاسبه شده از حداقل دستمزد کمتر بود و به مبلغ حداقل دستمزد افزایش یافت.';
+                finalBenefit = MIN_WAGE;
+            } else if (baseBenefit > maxBenefit) {
+                adjustmentReason = 'max_80';
+                adjustmentNote = 'مقرری محاسبه شده از 80% میانگین حقوق بیشتر بود و به حداکثر مجاز کاهش یافت.';
+                finalBenefit = maxBenefit;
+            }
+            
+            // نمایش نتیجه
+            const resultText = document.getElementById('result-text');
+            const resultContainer = document.getElementById('result-container');
+            const initialMessage = document.getElementById('initial-message');
+            const adjustmentNoteEl = document.getElementById('adjustment-note');
+            const calculationSteps = document.getElementById('calculation-steps');
+            
+            // ایجاد مراحل محاسبه
+            calculationSteps.innerHTML = `
+                <div class="step">
+                    <span>سهم عائله‌مندی (${dependents} نفر × ۱۰٪ × حداقل دستمزد):</span>
+                    <span class="step-value">${formatNumber(Math.round(dependents * 0.1 * MIN_WAGE))} ریال</span>
+                </div>
+                <div class="step">
+                    <span>سهم حقوق (۵۵٪ × میانگین حقوق):</span>
+                    <span class="step-value">${formatNumber(Math.round(avgSalary * 0.55))} ریال</span>
+                </div>
+                <div class="step">
+                    <span>مقرری اولیه (جمع سهم عائله و حقوق):</span>
+                    <span class="step-value">${formatNumber(Math.round(baseBenefit))} ریال</span>
+                </div>
+                <div class="step">
+                    <span>حداقل مجاز مقرری:</span>
+                    <span class="step-value">${formatNumber(MIN_WAGE)} ریال</span>
+                </div>
+                <div class="step">
+                    <span>حداکثر مجاز مقرری (۸۰٪ میانگین حقوق):</span>
+                    <span class="step-value">${formatNumber(Math.round(maxBenefit))} ریال</span>
+                </div>
+                <div class="step">
+                    <span>مقرری نهایی پس از اعمال محدودیت‌ها:</span>
+                    <span class="step-value highlight">${formatNumber(Math.round(finalBenefit))} ریال</span>
+                </div>
+            `;
+            
+            if (remainingMonths > 0) {
+                resultText.innerHTML = `
+                    ماهانه <span class="highlight">${formatNumber(Math.round(finalBenefit))} ریال</span>
+                    به مدت <span class="highlight">${remainingMonths} ماه</span>
+                    دریافت خواهید کرد.
+                `;
+                
+                if (adjustmentNote) {
+                    adjustmentNoteEl.innerHTML = `
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        ${adjustmentNote}
+                    `;
+                    adjustmentNoteEl.style.display = 'block';
+                } else {
+                    adjustmentNoteEl.style.display = 'none';
+                }
+            } else {
+                resultText.innerHTML = `
+                    مدت زمان استفاده از بیمه بيكاری به پايان رسيده است.
+                    <br>شما قبلاً از ${totalMonths} ماه سقف مجاز استفاده کرده‌اید.
+                `;
+                adjustmentNoteEl.style.display = 'none';
+            }
+            
+            initialMessage.style.display = 'none';
+            resultContainer.style.display = 'block';
+            
+            // اسکرول به سمت نتایج
+            document.getElementById('results-card').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        // اعمال جداکننده هزارگان در ورودی حقوق
+        document.getElementById('avg-salary').addEventListener('input', function(e) {
+            const value = e.target.value.replace(/,/g, '');
+            if (!isNaN(value)) {
+                e.target.value = formatNumber(value);
+            }
+        });
+        
+        // تنظیم مقادیر پیش‌فرض برای تست
+        function setTestData() {
+            document.getElementById('insurance-history').value = '25-120';
+            document.getElementById('marital-status').value = 'married';
+            document.getElementById('dependents').value = '2';
+            document.getElementById('used-months').value = '0';
+            document.getElementById('avg-salary').value = '150,000,000';
+        }
+        
+        // فعال کردن داده تست برای اشکال‌زدایی
+        // setTestData();
+
+    </script>
+</body>
+</html>
