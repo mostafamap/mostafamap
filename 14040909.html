@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه‌گر تقریبی اجرای لایحه ماده 106 قانون مدیریت خدمات کشوری</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            min-height: 100vh;
+            padding-bottom: 60px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #1a5276, #2874a6);
+            color: white;
+            padding: 25px 0;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            text-align: center;
+        }
+        
+        .header-link {
+            position: absolute;
+            left: 20px;
+            bottom: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .header-link:hover {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+        }
+        
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            border: none;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            color: #2874a6;
+            font-weight: 700;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .result-container {
+            background: linear-gradient(135deg, #e8f4fc 0%, #d5e8f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+        
+        .result-title {
+            color: #27ae60;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .footer {
+            background: linear-gradient(to right, #1a5276, #2874a6);
+            color: white;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+        
+        .footer-links a {
+            color: #f1c40f;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 28px;
+            color: #f1c40f;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .form-text {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            text-align: center;
+            animation: slowBlink 2s infinite;
+        }
+        
+        @keyframes slowBlink {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .input-group-text {
+            direction: ltr;
+        }
+        
+        .number-input {
+            direction: ltr;
+            text-align: center;
+        }
+        
+        .pension-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            height: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .pension-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        
+        .pension-card.selected {
+            border-color: #3498db;
+            background-color: #e1f5fe;
+        }
+        
+        .pension-card.highlighted {
+            border-color: #f1c40f;
+            background-color: #fff9e6;
+        }
+        
+        .pension-card.highlighted.selected {
+            border-color: #3498db;
+            background-color: #e1f5fe;
+        }
+        
+        .pension-card-title {
+            font-weight: 700;
+            color: #1a5276;
+            margin-bottom: 10px;
+        }
+        
+        .pension-card-details {
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+        
+        .calculation-steps {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .step {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #bdc3c7;
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .result-highlight {
+            background-color: #fef9e7;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #d35400;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .formula-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .info-alert {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-right: 4px solid #3498db;
+            text-align: center;
+        }
+        
+        .detailed-calculation {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            overflow-x: auto;
+        }
+        
+        .calculation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .calculation-table th, .calculation-table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        
+        .calculation-table th {
+            background-color: #e9ecef;
+        }
+        
+        .new-items-container {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .new-item-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .new-item-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        
+        .new-item-title {
+            font-weight: 700;
+            color: #1a5276;
+            margin-bottom: 10px;
+            border-right: 3px solid #f1c40f;
+            padding-right: 10px;
+            text-align: center;
+        }
+        
+        .pension-impact-result {
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #29b6f6;
+        }
+        
+        .impact-title {
+            color: #0277bd;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .impact-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a5276;
+            text-align: center;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .increase-indicator {
+            color: #27ae60;
+            font-weight: 700;
+        }
+        
+        .decrease-indicator {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+        
+        .scenario-comparison {
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #3498db;
+        }
+        
+        .scenario-comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .scenario-comparison-table th, .scenario-comparison-table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        
+        .scenario-comparison-table th {
+            background-color: #e9ecef;
+            font-weight: 600;
+        }
+        
+        .scenario-comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .scenario-comparison-table tr:last-child {
+            background-color: #e8f4fc;
+            font-weight: bold;
+        }
+        
+        .conclusion-box {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+        
+        .conclusion-title {
+            color: #2874a6;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .conclusion-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .net-benefit {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #27ae60;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .net-loss {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .yearly-projection-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .yearly-projection-table th, .yearly-projection-table td {
+            padding: 6px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+        
+        .yearly-projection-table th {
+            background-color: #e9ecef;
+            font-weight: 600;
+        }
+        
+        .yearly-projection-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .full-pension-comparison {
+            background-color: #fff9e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #f39c12;
+        }
+        
+        .full-pension-title {
+            color: #d35400;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .pension-limit-info {
+            background-color: #fff9e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #f39c12;
+        }
+        
+        .limit-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .limit-row:last-child {
+            border-bottom: none;
+        }
+        
+        .limit-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .limit-value {
+            font-weight: 700;
+            color: #d35400;
+        }
+        
+        .limit-applied {
+            background-color: #fdebd0;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-right: 4px solid #e74c3c;
+        }
+        
+        .excess-deduction-box {
+            background-color: #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e74c3c;
+        }
+        
+        .excess-deduction-title {
+            color: #d35400;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .excess-deduction-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            margin: 8px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .excess-deduction-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .excess-deduction-value {
+            font-weight: 700;
+            color: #e74c3c;
+        }
+        
+        .important-note {
+            color: #6c757d;
+            font-weight: 500;
+            font-style: italic;
+            margin: 5px 0;
+            padding: 3px 0;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .deduction-info {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 3px;
+            animation: slowBlink 2s infinite;
+        }
+        
+        .country-fund-exemption-box {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #3498db;
+        }
+        
+        .exemption-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #bdc3c7;
+        }
+        
+        .exemption-row:last-child {
+            border-bottom: none;
+        }
+        
+        .exemption-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .exemption-value {
+            font-weight: 700;
+            color: #27ae60;
+        }
+        
+        .relative-impact-box {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #3498db;
+        }
+        
+        .relative-impact-title {
+            color: #1a5276;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .relative-impact-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .relative-impact-table th, .relative-impact-table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+        
+        .relative-impact-table th {
+            background-color: #e9ecef;
+            font-weight: 600;
+        }
+        
+        .relative-impact-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 22px;
+            }
+            .card {
+                margin-bottom: 15px;
+            }
+            .header-link {
+                position: relative;
+                left: 0;
+                bottom: 0;
+                display: block;
+                text-align: center;
+                margin-top: 10px;
+            }
+            
+            .calculation-table th, .calculation-table td,
+            .scenario-comparison-table th, .scenario-comparison-table td {
+                padding: 6px 4px;
+                font-size: 0.75rem;
+            }
+            
+            .detailed-calculation {
+                padding: 10px;
+            }
+            
+            .formula-box {
+                padding: 10px;
+            }
+            
+            .result-container {
+                padding: 15px;
+            }
+            
+            .impact-value {
+                font-size: 18px;
+            }
+            
+            .limit-row, .exemption-row {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .yearly-projection-table th, .yearly-projection-table td {
+                padding: 4px 2px;
+                font-size: 0.7rem;
+            }
+            
+            .relative-impact-table th, .relative-impact-table td {
+                padding: 6px 3px;
+                font-size: 0.75rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .calculation-table th, .calculation-table td,
+            .scenario-comparison-table th, .scenario-comparison-table td {
+                padding: 4px 2px;
+                font-size: 0.7rem;
+            }
+            
+            .btn-calculate, .btn-reset {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .relative-impact-table th, .relative-impact-table td {
+                padding: 4px 2px;
+                font-size: 0.7rem;
+            }
+        }
+        
+        .difference-cell {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .difference-positive {
+            color: #27ae60;
+        }
+        
+        .difference-negative {
+            color: #e74c3c;
+        }
+        
+        .difference-neutral {
+            color: #6c757d;
+        }
+        
+        .merged-table-container {
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #3498db;
+        }
+        
+        /* استایل‌های جدید برای جدول مقایسه */
+        .comparison-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1a5276;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .pension-salary-row {
+            background-color: #e8f4fc;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هدر -->
+    <div class="header text-center">
+        <div class="container">
+            <h1 class="mb-3"><i class="bi bi-calculator"></i>محاسبه‌گر تقریبی اجرای لایحه ماده 106 قانون مدیریت خدمات کشوری</h1>
+            <p class="lead">بررسی تاثیر اقلام جدید مشمول کسور بر میانگین حقوق و مستمری بازنشستگی</p>
+            
+            <!-- لینک کم رنگ در هدر -->
+            <a href="https://kargozin.com/" class="header-link" target="_blank">
+                <i class="bi bi-link-45deg"></i> kargozin.com
+            </a>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="text-center">مجله کارگزینی</h2>
+        
+        <!-- کارت انتخاب صندوق بازنشستگی -->
+        <div class="card mb-4">
+            <div class="card-header text-center">انتخاب صندوق بازنشستگی</div>
+            <div class="card-body">
+                <div class="row" id="pension-funds-container">
+                    <!-- صندوق‌های بازنشستگی با JavaScript پر می‌شوند -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- کارت ورود داده اصلی -->
+        <div class="card mb-4" id="data-input-card">
+            <div class="card-header text-center">ورود اطلاعات حقوقی فعلی</div>
+            <div class="card-body">
+                <div class="info-alert">
+                    <h5><i class="bi bi-info-circle"></i> نحوه محاسبه میانگین حقوق:</h5>
+                    <ul style="padding-right: 20px; text-align: right; display: inline-block;">
+                        <li>بر اساس برنامه هفتم توسعه: میانگین حقوق بازنشستگی بر اساس میانگین حقوق دو سال پایانی خدمت محاسبه می‌شود</li>
+                        <li>اگر با 30 سال بازنشسته شوید، سال‌های 29 و 30 و اگر با 35 سال بازنشسته شوید، سال‌های 34 و 35 ملاک محاسبه هستند</li>
+                        <li>یکی از دو روش زیر را انتخاب کنید:</li>
+                        <li class="important-note">روش ۱: وارد کردن "بیمه سهم کارمند" (مثلاً ۷٪ از حقوق مشمول بیمه در صندوق تامین اجتماعی)</li>
+                        <li class="important-note">روش ۲: وارد کردن "آخرین حقوق و دستمزد مبنای پرداخت حق بیمه" (حقوق پایه مشمول بیمه)</li>
+                    </ul>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="employee-insurance" class="form-label">بیمه سهم کارمند<span class="important-note">(از فیش حقوقی)</span></label>
+                            <input type="text" class="form-control number-input formatted-number" id="employee-insurance" placeholder="مثال: 16,610,574 ریال">
+                            <div class="form-text">از روی مبلغ درج شده در فیش حقوقی که معمولاً میتوانید آنرا در ستون کسور و بدهی‌های با عنوان بیمه سهم کارمند یا عناوین مشابه پیدا کنید.<span class="important-note">(به ریال)</span></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="last-salary" class="form-label">آخرین حقوق و دستمزد مبنای پرداخت حق بیمه<span class="important-note">(از حکم حقوقی)</label>
+                            <input type="text" class="form-control number-input formatted-number" id="last-salary" placeholder="مثال: 237,293,909 ریال">
+                            <div class="form-text">حقوق پایه مشمول بیمه (به عنوان مثال حقوق و دستمزد ارسالی از طریق پیامک تامین اجتماعی، یا محاسبه از روی حکم پس از کسر اقلام غیر مشمول) <span class="important-note">(به ریال)</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="retirement-age" class="form-label">سنوات مورد نیاز برای بازنشستگی (سال خدمت)</label>
+                            <select class="form-control" id="retirement-age">
+                                <option value="30">30 سال خدمت</option>
+                                <option value="31">31 سال خدمت</option>
+                                <option value="32">32 سال خدمت</option>
+                                <option value="33">33 سال خدمت</option>
+                                <option value="34">34 سال خدمت</option>
+                                <option value="35" selected>35 سال خدمت</option>
+                            </select>
+                            <div class="form-text">تعداد سالهای خدمت برای بازنشستگی کامل <span class="important-note">(برای صندوق کشوری: پس از 30 سال کسور سهم مستخدم معاف می‌شود)</span></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="remaining-years" class="form-label">سالهای باقی‌مانده تا بازنشستگی</label>
+                            <input type="text" class="form-control number-input formatted-number" id="remaining-years" placeholder="مثال: 10" value="5">
+                            <div class="form-text">تعداد سالهایی که تا بازنشستگی کامل باقی مانده است <span class="important-note">(برای محاسبه سنوات معافیت کسور مهم است)</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="inflation-rate" class="form-label">نرخ تورم سالانه فرضی (%)</label>
+                            <input type="text" class="form-control number-input" id="inflation-rate" placeholder="مثال: 20 (می‌توانید صفر هم وارد کنید)" value="20">
+                            <div class="form-text">نرخ تورم سالانه برای محاسبات آینده (به درصد) - می‌توانید صفر وارد کنید <span class="important-note">(این نرخ در جدول پیش‌بینی سالانه استفاده می‌شود)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- کارت اقلام جدید مشمول کسور -->
+        <div class="card mb-4" id="new-items-card">
+            <div class="card-header text-center">اقلام جدید مشمول کسور بازنشستگی</div>
+            <div class="card-body">
+                <div class="new-items-container">
+                    <div class="new-item-card">
+                        <h5 class="new-item-title"><i class="bi bi-check-circle-fill text-success me-2"></i> اقلام جدید مشمول کسور</h5>
+                        <p class="text-muted">این اقلام به نسبت سالهایی که کسور پرداخت می‌کنید بر میانگین حقوق شما تأثیرگذار هستند: <span class="important-note">(کسور کامل بر اساس درصد صندوق اعمال می‌شود)</span></p>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="area-allowance" class="form-label">فوق‌العاده مناطق کمترتوسعه‌یافته و بدی آب و هوا</label>
+                                    <input type="text" class="form-control number-input formatted-number" id="area-allowance" placeholder="مبلغ ماهانه">
+                                    <div class="deduction-info" id="area-deduction-info">کسور: 0% سهم کارمند + 0% سهم کارفرما</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="overtime" class="form-label">اضافه کار ماهانه</label>
+                                    <input type="text" class="form-control number-input formatted-number" id="overtime" placeholder="میانگین اضافه کار ماهانه">
+                                    <div class="deduction-info" id="overtime-deduction-info">کسور: 0% سهم کارمند + 0% سهم کارفرما</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="shift-work" class="form-label">نوبت کاری ماهانه</label>
+                                    <input type="text" class="form-control number-input formatted-number" id="shift-work" placeholder="میانگین نوبت کاری ماهانه">
+                                    <div class="deduction-info" id="shift-deduction-info">کسور: 0% سهم کارمند + 0% سهم کارفرما</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="welfare-payments" class="form-label">پرداختی‌های رفاهی نقدی ماهانه</label>
+                                    <input type="text" class="form-control number-input formatted-number" id="welfare-payments" placeholder="پرداختی‌های رفاهی">
+                                    <div class="deduction-info" id="welfare-deduction-info">کسور: 0% سهم کارمند + 0% سهم کارفرما (سقف: 65,000,000 ریال)</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="part-time-teaching" class="form-label">حق التدریس غیر موظف معلمان</label>
+                                    <input type="text" class="form-control number-input formatted-number" id="part-time-teaching" placeholder="مبلغ ماهانه">
+                                    <div class="deduction-info" id="teaching-deduction-info">کسور: 0% سهم کارمند + 0% سهم کارفرما</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- نمایش سقف پرداختی‌های رفاهی -->
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="alert alert-warning" role="alert">
+                                    <i class="bi bi-exclamation-triangle"></i> <strong>توجه:</strong> سقف پرداختی‌های رفاهی در سال ۱۴۰۴ معادل ۶۵,۰۰۰,۰۰۰ ریال (۵۰٪ حداقل معیشت) می‌باشد. مبالغ بالاتر از این سقف در محاسبات اعمال نمی‌شود.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <button class="btn btn-calculate" id="calculate-btn">
+                        <i class="bi bi-calculator me-2"></i> محاسبه کامل
+                    </button>
+                    <button class="btn btn-reset" id="reset-btn">
+                        <i class="bi bi-arrow-clockwise me-2"></i> بازنشانی
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- کارت نتایج -->
+        <div class="card result-card" id="result-card">
+            <div class="card-header text-center">نتایج محاسبه</div>
+            <div class="card-body">
+                <div id="result-container" class="result-container">
+                    <!-- اطلاعات کف و سقف حقوق بازنشستگی -->
+                    <div class="pension-limit-info">
+                        <h4 class="impact-title"><i class="bi bi-exclamation-triangle me-2"></i> اطلاعات کف و سقف حقوق بازنشستگی</h4>
+                        
+                        <div class="limit-row">
+                            <div class="limit-label">کف حکم بازنشستگی سال ۱۴۰۴:</div>
+                            <div class="limit-value" id="min-pension-1404">117,000,000 ریال</div>
+                        </div>
+                        <div class="limit-row">
+                            <div class="limit-label">سقف حقوق بازنشستگی سال ۱۴۰۴:</div>
+                            <div class="limit-value" id="max-pension-1404">819,000,000 ریال</div>
+                        </div>
+                        <div class="limit-row">
+                            <div class="limit-label">نسبت سقف به کف:</div>
+                            <div class="limit-value">۷ برابر</div>
+                        </div>
+                        <div class="limit-row">
+                            <div class="limit-label">کف حکم در سال بازنشستگی:</div>
+                            <div class="limit-value" id="min-pension-retirement-year">0 ریال</div>
+                        </div>
+                        <div class="limit-row">
+                            <div class="limit-label">سقف حقوق در سال بازنشستگی:</div>
+                            <div class="limit-value" id="max-pension-retirement-year">0 ریال</div>
+                        </div>
+                    </div>
+                    
+                    <!-- جدول محاسبه میانگین حقوق دو سال پایانی -->
+                    <div class="merged-table-container mt-4">
+                        <h4 class="comparison-title"><i class="bi bi-calculator me-2"></i> محاسبه میانگین حقوق دو سال پایانی</h4>
+                        
+                        <div class="table-responsive">
+                            <table class="scenario-comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>شرح</th>
+                                        <th>سناریو ۱: بدون اقلام جدید</th>
+                                        <th>سناریو ۲: با اقلام جدید</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>حقوق پایه ماهانه</td>
+                                        <td id="scenario1-base-salary">0 ریال</td>
+                                        <td id="scenario2-base-salary">0 ریال</td>
+                                    </tr>
+                                    <tr>
+                                        <td>حقوق ماقبل آخر</td>
+                                        <td id="scenario1-year-n-1">0 ریال</td>
+                                        <td id="scenario2-year-n-1">0 ریال</td>
+                                    </tr>
+                                    <tr>
+                                        <td>حقوق سال آخر</td>
+                                        <td id="scenario1-year-n">0 ریال</td>
+                                        <td id="scenario2-year-n">0 ریال</td>
+                                    </tr>
+                                    <tr class="pension-salary-row">
+                                        <td>حقوق بازنشستگی</td>
+                                        <td id="scenario1-final-salary">0 ریال</td>
+                                        <td id="scenario2-final-salary">0 ریال</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- محاسبه سهم سنوات گذشته -->
+                    <div class="relative-impact-box mt-4" id="relative-impact-details">
+                        <h4 class="relative-impact-title"><i class="bi bi-calendar me-2"></i> محاسبه سهم سنوات گذشته و تأثیر نسبی</h4>
+                        <p class="text-muted mb-3">اقلام جدید مشمول کسور به نسبت سالهایی که کسور پرداخت می‌کنید در میانگین حقوق تأثیرگذار هستند.</p>
+                        
+                        <table class="relative-impact-table">
+                            <thead>
+                                <tr>
+                                    <th>شرح</th>
+                                    <th>مقدار</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>سالهای خدمت گذشته</td>
+                                    <td id="past-service-years">0 سال</td>
+                                </tr>
+                                <tr>
+                                    <td>سالهای باقی‌مانده تا بازنشستگی</td>
+                                    <td id="future-service-years">0 سال</td>
+                                </tr>
+                                <tr>
+                                    <td>کل سنوات خدمت (تا بازنشستگی)</td>
+                                    <td id="total-service-years">0 سال</td>
+                                </tr>
+                                <tr style="background-color: #e8f4fc; font-weight: bold;">
+                                    <td>نسبت تأثیر اقلام جدید در میانگین حقوق</td>
+                                    <td id="relative-impact-percent">0%</td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ کل اقلام جدید</td>
+                                    <td id="total-new-items-amount">0 ریال</td>
+                                </tr>
+                                <tr style="background-color: #f8f9fa;">
+                                    <td>تأثیر مؤثر اقلام جدید بر میانگین حقوق</td>
+                                    <td id="effective-new-items-impact">0 ریال</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="mt-3" id="past-deduction-box" style="display: none;">
+                            <h5 class="relative-impact-title"><i class="bi bi-cash-coin me-2"></i> محاسبه سهم سنوات گذشته (پیشنهاد پرداخت)</h5>
+                            <table class="relative-impact-table">
+                                <thead>
+                                    <tr>
+                                        <th>شرح</th>
+                                        <th>مبلغ پرداختی</th>
+                                        <th>شرح محاسبه</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>کسور سهم کارمند برای سنوات گذشته</td>
+                                        <td id="past-employee-deduction">0 ریال</td>
+                                        <td id="past-employee-calculation">0 ریال</td>
+                                    </tr>
+                                    <tr>
+                                        <td>کسور سهم کارفرما برای سنوات گذشته</td>
+                                        <td id="past-employer-deduction">0 ریال</td>
+                                        <td id="past-employer-calculation">0 ریال</td>
+                                    </tr>
+                                    <tr style="background-color: #e8f4fc; font-weight: bold;">
+                                        <td>کل پرداختی برای سنوات گذشته (به نرخ امروز)</td>
+                                        <td id="total-past-deduction">0 ریال</td>
+                                        <td id="total-past-calculation">0 ریال</td>
+                                    </tr>
+                                    <tr style="background-color: #e1f5fe; font-weight: bold;">
+                                        <td>میانگین حقوق بازنشستگی با پرداخت کل سنوات گذشته</td>
+                                        <td id="pension-with-full-payment">0 ریال</td>
+                                        <td id="pension-with-full-payment-calculation">محاسبه بر اساس تأثیر 100% اقلام جدید</td>
+                                    </tr>
+                                    <tr style="background-color: #f8f9fa; font-weight: bold;">
+                                        <td>میانگین حقوق بازنشستگی بدون پرداخت کل سنوات گذشته</td>
+                                        <td id="pension-without-full-payment">0 ریال</td>
+                                        <td id="pension-without-full-payment-calculation">محاسبه بر اساس تأثیر نسبی</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="alert alert-info mt-2">
+                                <i class="bi bi-info-circle"></i> در صورت پرداخت این مبلغ، اقلام جدید به طور کامل (۱۰۰٪) در میانگین حقوق شما تأثیرگذار خواهند بود.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- اطلاعات معافیت کسور صندوق کشوری -->
+                    <div class="country-fund-exemption-box mt-4" id="country-fund-exemption-details" style="display: none;">
+                        <h4 class="impact-title"><i class="bi bi-info-circle me-2"></i> اطلاعات معافیت کسور صندوق کشوری</h4>
+                        <div id="exemption-details-content">
+                            <!-- اطلاعات معافیت در اینجا نمایش داده می‌شود -->
+                        </div>
+                    </div>
+                    
+                    <!-- نتیجه‌گیری نهایی -->
+                    <div class="conclusion-box mt-4">
+                        <h4 class="conclusion-title"><i class="bi bi-lightbulb me-2"></i> نتیجه‌گیری نهایی</h4>
+                        <div class="conclusion-text" id="final-conclusion-text">
+                            پس از تحلیل اطلاعات وارد شده، نتیجه‌گیری در اینجا نمایش داده می‌شود.
+                        </div>
+                    </div>
+                    
+                    <!-- جدول پیش‌بینی سالانه -->
+                    <div class="detailed-calculation mt-4">
+                        <h4 class="impact-title"><i class="bi bi-calendar me-2"></i> پیش‌بینی سالانه با نرخ تورم <span id="inflation-rate-display">20</span>%</h4>
+                        <div class="table-responsive">
+                            <table class="yearly-projection-table" id="yearly-projection-table">
+                                <thead>
+                                    <tr>
+                                        <th>سال</th>
+                                        <th colspan="3">بدون اقلام جدید</th>
+                                        <th>میانگین دو سال آخر</th>
+                                        <th colspan="3">با اقلام جدید</th>
+                                        <th>میانگین دو سال آخر</th>
+                                        <th>کف حقوق بازنشستگی</th>
+                                        <th>سقف حقوق بازنشستگی</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>حقوق مشمول</th>
+                                        <th>سهم کارمند</th>
+                                        <th>سهم کارفرما</th>
+                                        <th></th>
+                                        <th>حقوق مشمول</th>
+                                        <th>سهم کارمند</th>
+                                        <th>سهم کارفرما</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="yearly-projection-body">
+                                    <!-- ردیف‌های جدول با JavaScript پر می‌شوند -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="formula-box mt-4">
+                        <h5><i class="bi bi-info-circle me-2"></i> فرمول‌های محاسباتی:</h5>
+                        <ul style="padding-right: 20px; text-align: right; display: inline-block;">
+                            <li>میانگین حقوق بازنشستگی = میانگین حقوق دو سال پایانی خدمت</li>
+                            <li>کف حکم بازنشستگی سال ۱۴۰۴ = ۱۱۷,۰۰۰,۰۰۰ ریال</li>
+                            <li>سقف حقوق بازنشستگی سال ۱۴۰۴ = ۸۱۹,۰۰۰,۰۰۰ ریال (۷ برابر حداقل)</li>
+                            <li>کسور کارمند = (حقوق مشمول + اقلام جدید) × درصد سهم کارمند × (1 + نرخ تورم)<sup>n</sup></li>
+                            <li>کسور کارفرما = (حقوق مشمول + اقلام جدید) × درصد سهم کارفرما × (1 + نرخ تورم)<sup>n</sup></li>
+                            <li>نسبت تأثیر اقلام جدید = (سالهای باقی‌مانده) ÷ (کل سنوات خدمت)</li>
+                            <li>تأثیر مؤثر اقلام جدید = (مبلغ کل اقلام جدید) × (نسبت تأثیر)</li>
+                            <li>n = تعداد سال‌های باقی‌مانده تا بازنشستگی</li>
+                            <li>نرخ تورم به صورت پیشفرض مقدس قانونگذار 20 درصد برای همه سالها اعمال می‌شود</li>
+                            <li>برای صندوق کشوری: پس از ۳۰ سال خدمت، کسور سهم مستخدم معاف می‌شود</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div id="error-message" class="alert alert-danger mt-3" style="display: none;">
+                    لطفاً حداقل یکی از فیلدهای بیمه سهم کارمند یا آخرین حقوق را پر کنید و یک صندوق بازنشستگی را انتخاب نمایید.
+                </div>
+            </div>
+        </div>
+        
+        <!-- لینک‌های مفید -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="card-title text-center"><i class="bi bi-info-circle"></i> لینک‌های مفید</h4>
+                <div class="row">
+                    <div class="mt-4">
+                        <a href="https://kargozin.com/?p=18059/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> لایحه اصلاح ماده (۱۰۶) قانون مدیریت خدمات کشوری
+                        </a>
+                        <a href="http://kargozin.com/?p=18104/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> تنقیح و واکاوی لایحه اصلاح ماده ۱۰۶ قانون مدیریت خدمات کشوری
+                        </a>
+                        <a href="https://kargozin.com/?p=18124/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> مزایای و معایب لایحه اصلاح ماده ۱۰۶ قانون مدیریت از دید مسئولان و کارشناسان امور اداری و استخدامی
+                        </a>
+                        <a href="https://qavanin.ir/Law/TreeText/?IDS=1204996686065044702" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> قانون مدیریت خدمات کشوری
+                        </a>
+                        <a href="https://qavanin.ir/Law/TreeText/?IDS=9519516521697556277" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> قانون بودجه سال 1404 کل کشور
+                        </a>
+                        <a href="https://qavanin.ir/Law/TreeText/?IDS=11464227324992997900" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> افزایش سقف حقوق مشمولین دستورالعمل فوق‌العاده سمت (پست) تخصصي حقوقي و يا حمايت قضائي و مشوق ها
+                        </a>
+                        <a href="https://qavanin.ir/Law/TreeText/?IDS=10395482784883159659" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> دستور العمل ساماندهي حقوق و مزاياي مديران عامل و اعضاي هيات مديره شركت هاي دولتي و بانك هاي انتفاعي 1402
+                        </a>
+                        <a href="https://qavanin.ir/Law/TreeText/?IDS=13440621441132414611" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> سقف خالص پرداختي ماهانه در سال به افرادي كه به نمايندگي از سوي دولت و يا توسط مقامات يا كاركنان دستگاه هاي اجرايي به صورت مستقيم يا غيرمستقيم براي مديريت منصوب مي گردند 1403
+                        </a>
+                        <a href="https://qavanin.ir/Law/TreeText/?IDS=14674253559896851209" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> قانون اصلاح مقررات بازنشستگي و وظيفه قانون استخدام كشوري
+                        </a>
+                        <a href="https://cbi.ir/Inflation/Inflation_FA.aspx/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> نرخ تورم بانک مرکزی
+                        </a>
+                        <a href="https://kargozin.com/?p=17989/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> تورم به ۵۰ درصد رسید؛ افزایش حقوق ۲۰ درصدی غیر قانونی است
+                        </a>
+                        <a href="https://kargozin.com/?p=15433/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> رویارویی دولت و مجلس در افزایش حقوق کارکنان و بازنشستگان؛ از نرخ تورم اعلامی بانک مرکزی تا اعتبارات هزینه‌ای
+                        </a>
+                        <a href="https://kargozin.com/?p=15288/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> یادداشتی بر اعلام نظر رئیس مجلس و لغو اصلاحیه مصوبه ضریب حقوق ۱۴۰۴ کارمندان
+                        </a>
+                        <a href="https://kargozin.com/?p=17897/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> کارزار افزایش حقوق کارمندان بر اساس تورم واقعی
+                        </a>
+                        <a href="https://karzar.net/269551/?p=17897/" target="_blank" class="btn btn-outline-primary btn-sm d-block mb-2">
+                            <i class="bi bi-link me-2"></i> لینک مستقیم کارزار افزایش حقوق کارمندان بر اساس تورم واقعی
+                        </a>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <a href="https://kargozin.com/" target="_blank" class="btn btn-primary">
+                            <i class="bi bi-google me-2"></i> مجله کارگزینی
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- فوتر -->
+    <footer class="footer text-center mt-5">
+        <div class="container">
+            <p class="mb-3">🍀🤞🌻 توسعه‌یافته توسط <span class="logo">مجله کارگزینی</span> | نسخه 1404/09/09 🌻🤞🍀</p>
+            <div class="footer-links mb-3">
+                <a href="mailto:mustafa.alimohammadi@gmail.com">
+                    <i class="bi bi-envelope me-1"></i> توسعه دهنده: مصطفی علیمحمدی
+                </a>
+                <a href="https://kargozin.com/" target="_blank">
+                    <i class="bi bi-globe me-1"></i> مجله کارگزینی/سامانه اداری و استخدامی 
+                </a>
+                <a href="https://t.me/+W10Ae66GdN40MDg0" target="_blank">
+                    <i class="bi bi-telegram me-1"></i> گروه تبادل نظر مجله کارگزینی
+                </a>
+                <a href="http://t.me/+eRSSofhaSpo4ZGNk" target="_blank">
+                    <i class="bi bi-telegram me-1"></i> کانال تلگرام مجله کارگزینی
+                </a>
+            </div>
+            <p>© کلیه حقوق این محاسبه‌گر برای سایت مجله کارگزینی محفوظ است</p>
+        </div>
+    </footer>
+
+    <script>
+        // داده‌های صندوق‌های بازنشستگی
+        const pensionFunds = [
+            { name: "بازنشستگی کشوری", employee: 9, employer: 13.5, government: "تامین کسری", total: 22.5, highlighted: true, countryFund: true },
+            { name: "تامین اجتماعی", employee: 7, employer: 20, government: "سه درصد بیمه بیکاری", total: 30, highlighted: true, countryFund: false },
+            { name: "بانک مرکزی", employee: 8.5, employer: 17, government: "-", total: 25.5, countryFund: false },
+            { name: "مشترک بانکها", employee: 9, employer: 21, government: "-", total: 30, countryFund: false },
+            { name: "آينده ساز", employee: 7, employer: 22, government: "-", total: 29, countryFund: false },
+            { name: "صدا و سيما", employee: 8, employer: 16, government: "-", total: 24, countryFund: false },
+            { name: "بنادر وكشتيراني ايران", employee: 7, employer: 14, government: "-", total: 21, countryFund: false },
+            { name: "هواپيمايي جمهوري اسلامي ايران (هما)", employee: 7, employer: 14, government: "-", total: 21, countryFund: false },
+            { name: "بيمه ايران", employee: 9, employer: 18, government: "-", total: 27, countryFund: false },
+            { name: "بازنشستگی و معذوريت جهاد", employee: 9, employer: 13.5, government: "-", total: 22.5, countryFund: false },
+            { name: "کارکنان فولاد", employee: 10, employer: 20, government: "-", total: 30, countryFund: false },
+            { name: "بيمه مرکزی ايران", employee: 9, employer: 18, government: "-", total: 27, countryFund: false },
+            { name: "شهرداري تهران", employee: 7, employer: 14, government: "-", total: 21, countryFund: false },
+            { name: "صنعت نفت", employee: 6, employer: 19, government: "-", total: 25, countryFund: false },
+            { name: "بازنشستگي وبيمه ارتش", employee: 9, employer: 13.5, government: "-", total: 22.5, countryFund: false },
+            { name: "شركت مخابرات", employee: 8.5, employer: 12.75, government: "-", total: 21.25, countryFund: false },
+            { name: "صنايع مس ايران", employee: 10, employer: 20, government: "-", total: 30, countryFund: false },
+            { name: "سپاه پاسداران", employee: 9, employer: 13.5, government: "-", total: 22.5, countryFund: false },
+            { name: "نيروهاي انتظامي", employee: 9, employer: 13.5, government: "-", total: 22.5, countryFund: false }
+        ];
+
+        // حداقل معیشت سال 1404 (برای سقف پرداختی‌های رفاهی)
+        const MIN_LIVING_WAGE_1404 = 130000000; // 130 میلیون ریال
+        const MAX_WELFARE_PAYMENT = MIN_LIVING_WAGE_1404 * 0.5; // 50% حداقل معیشت = 65 میلیون ریال
+
+        // کف و سقف حقوق بازنشستگی سال 1404
+        const MIN_PENSION_1404 = 117000000; // 117 میلیون ریال
+        const MAX_PENSION_1404 = MIN_PENSION_1404 * 7; // 819 میلیون ریال (7 برابر حداقل)
+
+        // متغیرهای سراسری
+        let selectedPensionFund = null;
+
+        // تابع برای بارگذاری صندوق‌های بازنشستگی
+        function loadPensionFunds() {
+            const container = document.getElementById('pension-funds-container');
+            
+            pensionFunds.forEach((fund, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4';
+                
+                const cardClass = fund.highlighted ? 'pension-card highlighted' : 'pension-card';
+                
+                col.innerHTML = `
+                    <div class="card ${cardClass}" data-index="${index}">
+                        <div class="card-body text-center">
+                            <h5 class="pension-card-title">${fund.name}</h5>
+                            <div class="pension-card-details">
+                                <div>سهم بیمه شده: ${fund.employee}%</div>
+                                <div>سهم کارفرما: ${fund.employer}%</div>
+                                <div>سهم دولت: ${fund.government}</div>
+                                <div>جمع: ${fund.total}%</div>
+                                ${fund.countryFund ? '<div class="important-note mt-2"><i class="bi bi-info-circle"></i> معافیت کسور پس از 30 سال</div>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(col);
+            });
+            
+            // اضافه کردن رویداد کلیک به کارت‌ها
+            document.querySelectorAll('.pension-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    // حذف انتخاب از همه کارت‌ها
+                    document.querySelectorAll('.pension-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    
+                    // اضافه کردن انتخاب به کارت کلیک شده
+                    this.classList.add('selected');
+                    
+                    // ذخیره صندوق انتخاب شده
+                    const index = parseInt(this.getAttribute('data-index'));
+                    selectedPensionFund = pensionFunds[index];
+                    
+                    // به‌روزرسانی اطلاعات کسور در فرم
+                    updateDeductionInfo();
+                    
+                    // اسکرول به قسمت ورود داده
+                    document.getElementById('data-input-card').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
+
+        // تابع به‌روزرسانی اطلاعات کسور در فرم
+        function updateDeductionInfo() {
+            if (!selectedPensionFund) return;
+            
+            // به‌روزرسانی اطلاعات کسور برای هر آیتم
+            const employeePercent = selectedPensionFund.employee;
+            const employerPercent = selectedPensionFund.employer;
+            
+            document.getElementById('area-deduction-info').textContent = `کسور: ${employeePercent}% سهم کارمند + ${employerPercent}% سهم کارفرما`;
+            document.getElementById('overtime-deduction-info').textContent = `کسور: ${employeePercent}% سهم کارمند + ${employerPercent}% سهم کارفرما`;
+            document.getElementById('shift-deduction-info').textContent = `کسور: ${employeePercent}% سهم کارمند + ${employerPercent}% سهم کارفرما`;
+            document.getElementById('welfare-deduction-info').textContent = `کسور: ${employeePercent}% سهم کارمند + ${employerPercent}% سهم کارفرما (سقف: ${formatNumber(MAX_WELFARE_PAYMENT)} ریال)`;
+            document.getElementById('teaching-deduction-info').textContent = `کسور: ${employeePercent}% سهم کارمند + ${employerPercent}% سهم کارفرما`;
+        }
+
+        // تابع تبدیل اعداد فارسی به انگلیسی
+        function convertPersianToEnglishNumbers(str) {
+            if (!str) return '';
+            
+            const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            
+            let result = str.toString();
+            
+            // تبدیل اعداد فارسی
+            for (let i = 0; i < 10; i++) {
+                result = result.replace(new RegExp(persianNumbers[i], 'g'), englishNumbers[i]);
+            }
+            
+            // تبدیل اعداد عربی
+            for (let i = 0; i < 10; i++) {
+                result = result.replace(new RegExp(arabicNumbers[i], 'g'), englishNumbers[i]);
+            }
+            
+            return result;
+        }
+        
+        // تابع فرمت‌دهی اعداد با جداکننده هزارگان
+        function formatNumber(number) {
+            if (number === null || number === undefined || isNaN(number)) return '';
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // تابع تبدیل اعداد فرمت شده به عدد خالص
+        function parseFormattedNumber(formattedNumber) {
+            if (!formattedNumber) return 0;
+            
+            // تبدیل اعداد فارسی و عربی به انگلیسی
+            const cleanNumber = convertPersianToEnglishNumbers(formattedNumber);
+            
+            // حذف همه کاراکترهای غیرعددی به جز نقطه برای اعداد اعشاری
+            const numericString = cleanNumber.replace(/[^\d.]/g, '');
+            
+            return parseFloat(numericString) || 0;
+        }
+
+        // تابع محاسبه حقوق پایه از بیمه سهم کارمند - تغییر مهم: استفاده از درصد صندوق انتخاب شده
+        function calculateBaseSalaryFromInsurance(employeeInsurance) {
+            if (!employeeInsurance || employeeInsurance <= 0 || !selectedPensionFund) return 0;
+            
+            // استفاده از درصد صندوق انتخاب شده (مثلاً 7% برای تامین اجتماعی، 9% برای کشوری، و...)
+            const employeePercentage = selectedPensionFund.employee / 100;
+            return employeeInsurance / employeePercentage;
+        }
+
+        // تابع محاسبه کف و سقف حقوق بازنشستگی در سال هدف
+        function calculatePensionLimits(retirementYear, inflationRate, currentYear = 1404) {
+            // محاسبه تعداد سالهای باقی مانده تا بازنشستگی
+            const yearsToRetirement = retirementYear - currentYear;
+            
+            // محاسبه کف و سقف حقوق بازنشستگی در سال بازنشستگی با تعدیل تورم
+            const minPensionAtRetirement = MIN_PENSION_1404 * Math.pow(1 + (inflationRate/100), yearsToRetirement);
+            const maxPensionAtRetirement = MAX_PENSION_1404 * Math.pow(1 + (inflationRate/100), yearsToRetirement);
+            
+            return {
+                minPension: minPensionAtRetirement,
+                maxPension: maxPensionAtRetirement,
+                yearsToRetirement: yearsToRetirement
+            };
+        }
+
+        // تابع اعمال محدودیت کف و سقف بر حقوق بازنشستگی
+        function applyPensionLimits(calculatedPension, minPension, maxPension) {
+            let finalPension = calculatedPension;
+            let limitApplied = false;
+            let limitType = null;
+            
+            // بررسی کف
+            if (finalPension < minPension) {
+                finalPension = minPension;
+                limitApplied = true;
+                limitType = 'min';
+            }
+            
+            // بررسی سقف
+            if (finalPension > maxPension) {
+                finalPension = maxPension;
+                limitApplied = true;
+                limitType = 'max';
+            }
+            
+            return {
+                finalPension: finalPension,
+                limitApplied: limitApplied,
+                limitType: limitType,
+                originalPension: calculatedPension
+            };
+        }
+
+        // تابع محاسبه حقوق دو سال پایانی به تفکیک
+        function calculateFinalTwoYears(baseSalary, remainingYears, inflationRate, hasNewItems, newItemsAmount) {
+            const yearsToRetirement = remainingYears;
+            let currentSalary = baseSalary;
+            
+            // اگر اقلام جدید داریم به حقوق اضافه می‌کنیم
+            if (hasNewItems) {
+                currentSalary += newItemsAmount;
+            }
+            
+            // محاسبه حقوق در دو سال پایانی
+            let salaryYearNMinus1 = 0; // حقوق سال ماقبل آخر
+            let salaryYearN = 0; // حقوق سال آخر
+            
+            if (yearsToRetirement >= 2) {
+                // اگر حداقل 2 سال تا بازنشستگی داریم
+                salaryYearNMinus1 = currentSalary * Math.pow(1 + (inflationRate/100), yearsToRetirement - 2);
+                salaryYearN = salaryYearNMinus1 * (1 + (inflationRate/100));
+            } else if (yearsToRetirement === 1) {
+                // اگر فقط 1 سال تا بازنشستگی داریم
+                salaryYearNMinus1 = currentSalary;
+                salaryYearN = currentSalary * (1 + (inflationRate/100));
+            } else {
+                // اگر همین امسال بازنشسته می‌شود
+                salaryYearNMinus1 = currentSalary;
+                salaryYearN = currentSalary;
+            }
+            
+            // میانگین دو سال پایانی
+            const averageSalary = (salaryYearNMinus1 + salaryYearN) / 2;
+            
+            return {
+                salaryYearNMinus1: salaryYearNMinus1,
+                salaryYearN: salaryYearN,
+                averageSalary: averageSalary,
+                currentSalary: currentSalary
+            };
+        }
+
+        // تابع محاسبه اقلام جدید (با حذف موارد اضافی)
+        function calculateNewItems() {
+            const areaAllowance = parseFormattedNumber(document.getElementById('area-allowance').value) || 0;
+            const overtime = parseFormattedNumber(document.getElementById('overtime').value) || 0;
+            const shiftWork = parseFormattedNumber(document.getElementById('shift-work').value) || 0;
+            let welfarePayments = parseFormattedNumber(document.getElementById('welfare-payments').value) || 0;
+            const partTimeTeaching = parseFormattedNumber(document.getElementById('part-time-teaching').value) || 0;
+            
+            // محدود کردن پرداختی‌های رفاهی به سقف
+            welfarePayments = Math.min(welfarePayments, MAX_WELFARE_PAYMENT);
+            
+            return {
+                areaAllowance,
+                overtime,
+                shiftWork,
+                welfarePayments,
+                partTimeTeaching,
+                total: areaAllowance + overtime + shiftWork + welfarePayments + partTimeTeaching
+            };
+        }
+
+        // تابع محاسبه سهم سنوات گذشته و تأثیر نسبی
+        function calculateRelativeImpact(baseSalary, newItemsTotal, retirementAge, remainingYears, inflationRate) {
+            // محاسبه سنوات گذشته
+            const pastServiceYears = retirementAge - remainingYears;
+            const totalServiceYears = retirementAge;
+            
+            // محاسبه نسبت تأثیر
+            const relativeImpactPercent = (remainingYears / totalServiceYears) * 100;
+            
+            // محاسبه تأثیر مؤثر اقلام جدید
+            const effectiveNewItemsImpact = newItemsTotal * (remainingYears / totalServiceYears);
+            
+            // محاسبه سهم سنوات گذشته (اگر کاربر بخواهد برای سنوات گذشته هم پرداخت کند)
+            let pastDeduction = {
+                employee: 0,
+                employer: 0,
+                total: 0
+            };
+            
+            if (pastServiceYears > 0) {
+                const employeePercentage = selectedPensionFund.employee / 100;
+                const employerPercentage = selectedPensionFund.employer / 100;
+                
+                // محاسبه کسور سنوات گذشته با نرخ امروز (با احتساب تورم)
+                // فرض: کسور سنوات گذشته باید به نرخ امروز پرداخت شود
+                const adjustedPastYears = pastServiceYears;
+                const monthlyNewItems = newItemsTotal;
+                
+                // محاسبه کسور سهم کارمند برای سنوات گذشته
+                pastDeduction.employee = monthlyNewItems * employeePercentage * pastServiceYears * 12;
+                
+                // محاسبه کسور سهم کارفرما برای سنوات گذشته
+                pastDeduction.employer = monthlyNewItems * employerPercentage * pastServiceYears * 12;
+                
+                // مجموع
+                pastDeduction.total = pastDeduction.employee + pastDeduction.employer;
+            }
+            
+            return {
+                pastServiceYears,
+                remainingYears,
+                totalServiceYears,
+                relativeImpactPercent,
+                effectiveNewItemsImpact,
+                pastDeduction
+            };
+        }
+
+        // تابع محاسبه حقوق بازنشستگی با پرداخت کامل سنوات گذشته
+        function calculatePensionWithFullPayment(baseSalary, newItemsTotal, remainingYears, retirementAge, inflationRate, pensionLimits) {
+            // اگر سنوات گذشته وجود دارد، محاسبه حقوق بازنشستگی با تأثیر کامل اقلام جدید
+            const pastServiceYears = retirementAge - remainingYears;
+            const totalServiceYears = retirementAge;
+            
+            // اگر سنوات گذشته وجود دارد، تأثیر کامل اقلام جدید
+            const fullImpactNewItems = newItemsTotal * (totalServiceYears / totalServiceYears); // 100% تأثیر
+            
+            // محاسبه حقوق دو سال پایانی با تأثیر کامل
+            const finalYearsWithFullPayment = calculateFinalTwoYears(baseSalary, remainingYears, inflationRate, true, fullImpactNewItems);
+            
+            // اعمال محدودیت کف و سقف
+            const pensionResult = applyPensionLimits(finalYearsWithFullPayment.averageSalary, pensionLimits.minPension, pensionLimits.maxPension);
+            
+            return {
+                pensionWithFullPayment: pensionResult.finalPension,
+                originalCalculation: finalYearsWithFullPayment.averageSalary,
+                limitApplied: pensionResult.limitApplied,
+                limitType: pensionResult.limitType
+            };
+        }
+
+        // تابع محاسبه کسور با در نظر گرفتن معافیت صندوق کشوری
+        function calculateDeductions(baseSalary, newItemsTotal, remainingYears, retirementAge, inflationRate) {
+            const employeePercentage = selectedPensionFund.employee / 100;
+            const employerPercentage = selectedPensionFund.employer / 100;
+            
+            // محاسبه کسور با در نظر گرفتن تورم برای هر سال
+            let totalEmployeeDeduction = 0;
+            let totalEmployerDeduction = 0;
+            let totalNewItemsEmployeeDeduction = 0;
+            let totalNewItemsEmployerDeduction = 0;
+            let baseEmployeeDeduction = 0;
+            let baseEmployerDeduction = 0;
+            
+            // محاسبه سالهای معافیت برای صندوق کشوری
+            let exemptionYears = 0;
+            let totalExemptedAmount = 0;
+            
+            if (selectedPensionFund.countryFund) {
+                // محاسبه سالهای خدمت فعلی
+                const currentServiceYears = retirementAge - remainingYears;
+                
+                // اگر 30 سال یا بیشتر خدمت کرده باشد
+                if (currentServiceYears >= 30) {
+                    // تمام سالهای باقی‌مانده معاف است
+                    exemptionYears = remainingYears;
+                } else if (currentServiceYears < 30) {
+                    // محاسبه سالهایی که بعد از 30 سالگی خواهند بود
+                    const yearsTo30 = 30 - currentServiceYears;
+                    if (yearsTo30 < remainingYears) {
+                        exemptionYears = remainingYears - yearsTo30;
+                    }
+                }
+            }
+            
+            // محاسبه کسور برای هر سال باقی‌مانده
+            for (let year = 1; year <= remainingYears; year++) {
+                // حقوق سال جاری با احتساب تورم
+                const currentYearSalary = baseSalary * Math.pow(1 + (inflationRate/100), year-1);
+                const currentYearNewItems = newItemsTotal * Math.pow(1 + (inflationRate/100), year-1);
+                
+                // کسور حقوق پایه
+                const yearBaseEmployeeDeduction = currentYearSalary * employeePercentage;
+                const yearBaseEmployerDeduction = currentYearSalary * employerPercentage;
+                
+                // کسور اقلام جدید
+                const yearNewItemsEmployeeDeduction = currentYearNewItems * employeePercentage;
+                const yearNewItemsEmployerDeduction = currentYearNewItems * employerPercentage;
+                
+                // اضافه کردن به مجموع
+                baseEmployeeDeduction += yearBaseEmployeeDeduction;
+                baseEmployerDeduction += yearBaseEmployerDeduction;
+                totalNewItemsEmployeeDeduction += yearNewItemsEmployeeDeduction;
+                totalNewItemsEmployerDeduction += yearNewItemsEmployerDeduction;
+                
+                // اعمال معافیت برای صندوق کشوری
+                if (selectedPensionFund.countryFund && year > (remainingYears - exemptionYears)) {
+                    // این سال معاف است - فقط کسور اقلام جدید محاسبه می‌شود
+                    totalEmployeeDeduction += yearNewItemsEmployeeDeduction;
+                    totalEmployerDeduction += yearBaseEmployerDeduction + yearNewItemsEmployerDeduction;
+                    totalExemptedAmount += yearBaseEmployeeDeduction;
+                } else {
+                    // این سال معاف نیست - همه کسور محاسبه می‌شود
+                    totalEmployeeDeduction += yearBaseEmployeeDeduction + yearNewItemsEmployeeDeduction;
+                    totalEmployerDeduction += yearBaseEmployerDeduction + yearNewItemsEmployerDeduction;
+                }
+            }
+            
+            // میانگین ماهانه
+            const avgMonthlyEmployeeDeduction = totalEmployeeDeduction / (remainingYears * 12);
+            const avgMonthlyEmployerDeduction = totalEmployerDeduction / (remainingYears * 12);
+            const avgMonthlyExemption = totalExemptedAmount / (remainingYears * 12);
+            
+            // کل کسور تا بازنشستگی
+            const totalEmployeeDeductionUntilRetirement = totalEmployeeDeduction * 12;
+            const totalEmployerDeductionUntilRetirement = totalEmployerDeduction * 12;
+            
+            return {
+                avgMonthlyEmployeeDeduction,
+                avgMonthlyEmployerDeduction,
+                totalEmployeeDeductionUntilRetirement,
+                totalEmployerDeductionUntilRetirement,
+                exemptionYears,
+                avgMonthlyExemption,
+                totalExemptedAmount,
+                totalNewItemsEmployeeDeduction: totalNewItemsEmployeeDeduction / (remainingYears * 12),
+                totalNewItemsEmployerDeduction: totalNewItemsEmployerDeduction / (remainingYears * 12)
+            };
+        }
+
+        // تابع تولید جدول پیش‌بینی سالانه
+        function generateYearlyProjection(baseSalary, newItemsTotal, remainingYears, inflationRate, employeePercent, employerPercent) {
+            const tableBody = document.getElementById('yearly-projection-body');
+            tableBody.innerHTML = '';
+            
+            // به‌روزرسانی نمایش نرخ تورم
+            document.getElementById('inflation-rate-display').textContent = inflationRate;
+            
+            const currentYear = 1404;
+            let salaryWithoutNewItems = baseSalary;
+            let salaryWithNewItems = baseSalary + newItemsTotal;
+            
+            // ذخیره حقوق برای محاسبه میانگین دو سال آخر
+            let lastTwoYearsWithout = [];
+            let lastTwoYearsWith = [];
+            
+            for (let year = 0; year <= remainingYears; year++) {
+                const yearNumber = currentYear + year;
+                const yearSalaryWithout = salaryWithoutNewItems;
+                const yearSalaryWith = salaryWithNewItems;
+                
+                // محاسبه کسور
+                const employeeDeductionWithout = yearSalaryWithout * (employeePercent / 100);
+                const employerDeductionWithout = yearSalaryWithout * (employerPercent / 100);
+                
+                const employeeDeductionWith = yearSalaryWith * (employeePercent / 100);
+                const employerDeductionWith = yearSalaryWith * (employerPercent / 100);
+                
+                // محاسبه میانگین دو سال آخر
+                lastTwoYearsWithout.push(yearSalaryWithout);
+                lastTwoYearsWith.push(yearSalaryWith);
+                
+                if (lastTwoYearsWithout.length > 2) {
+                    lastTwoYearsWithout.shift();
+                    lastTwoYearsWith.shift();
+                }
+                
+                const avgLastTwoWithout = lastTwoYearsWithout.length === 2 ? 
+                    (lastTwoYearsWithout[0] + lastTwoYearsWithout[1]) / 2 : 0;
+                const avgLastTwoWith = lastTwoYearsWith.length === 2 ? 
+                    (lastTwoYearsWith[0] + lastTwoYearsWith[1]) / 2 : 0;
+                
+                // محاسبه کف و سقف برای این سال
+                const minPensionThisYear = MIN_PENSION_1404 * Math.pow(1 + (inflationRate/100), year);
+                const maxPensionThisYear = MAX_PENSION_1404 * Math.pow(1 + (inflationRate/100), year);
+                
+                // ایجاد ردیف جدول
+                const row = document.createElement('tr');
+                
+                // تعیین استایل برای سال آخر
+                if (year === remainingYears) {
+                    row.style.backgroundColor = '#e8f4fc';
+                    row.style.fontWeight = 'bold';
+                }
+                
+                row.innerHTML = `
+                    <td>${yearNumber}</td>
+                    <td>${formatNumber(Math.round(yearSalaryWithout))}</td>
+                    <td>${formatNumber(Math.round(employeeDeductionWithout))}</td>
+                    <td>${formatNumber(Math.round(employerDeductionWithout))}</td>
+                    <td>${formatNumber(Math.round(avgLastTwoWithout))}</td>
+                    <td>${formatNumber(Math.round(yearSalaryWith))}</td>
+                    <td>${formatNumber(Math.round(employeeDeductionWith))}</td>
+                    <td>${formatNumber(Math.round(employerDeductionWith))}</td>
+                    <td>${formatNumber(Math.round(avgLastTwoWith))}</td>
+                    <td>${formatNumber(Math.round(minPensionThisYear))}</td>
+                    <td>${formatNumber(Math.round(maxPensionThisYear))}</td>
+                `;
+                
+                tableBody.appendChild(row);
+                
+                // افزایش حقوق برای سال بعد با نرخ تورم
+                salaryWithoutNewItems *= (1 + (inflationRate/100));
+                salaryWithNewItems *= (1 + (inflationRate/100));
+            }
+        }
+
+        // تابع محاسبه اصلی
+        function calculateInsurance() {
+            // دریافت مقادیر ورودی اصلی
+            const employeeInsurance = parseFormattedNumber(document.getElementById('employee-insurance').value);
+            const lastSalary = parseFormattedNumber(document.getElementById('last-salary').value);
+            
+            // اعتبارسنجی
+            if (!selectedPensionFund || (!employeeInsurance && !lastSalary)) {
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('result-container').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('error-message').style.display = 'none';
+            
+            // محاسبه حقوق پایه - تغییر مهم: استفاده از درصد صندوق انتخاب شده
+            let baseSalary = lastSalary;
+            if (employeeInsurance && !lastSalary) {
+                baseSalary = calculateBaseSalaryFromInsurance(employeeInsurance);
+                // نمایش حقوق محاسبه شده
+                document.getElementById('last-salary').value = formatNumber(Math.round(baseSalary));
+            }
+            
+            // دریافت سایر ورودی‌ها
+            const retirementAge = parseInt(document.getElementById('retirement-age').value) || 35;
+            const remainingYears = parseFormattedNumber(document.getElementById('remaining-years').value) || 5;
+            const inflationRateInput = document.getElementById('inflation-rate').value;
+            
+            // تغییر مهم: اجازه ورود صفر برای نرخ تورم
+            let inflationRate = 20; // مقدار پیش‌فرض
+            if (inflationRateInput !== '' && inflationRateInput !== null) {
+                // تبدیل اعداد فارسی و عربی به انگلیسی
+                const cleanInflationRate = convertPersianToEnglishNumbers(inflationRateInput);
+                // حذف همه کاراکترهای غیرعددی به جز نقطه برای اعداد اعشاری
+                const numericInflationRate = cleanInflationRate.replace(/[^\d.]/g, '');
+                inflationRate = parseFloat(numericInflationRate) || 0;
+            }
+            
+            // محاسبه سال بازنشستگی (فرض می‌کنیم سال جاری 1404 است)
+            const currentYear = 1404;
+            const retirementYear = currentYear + remainingYears;
+            
+            // محاسبه کف و سقف حقوق بازنشستگی در سال بازنشستگی
+            const pensionLimits = calculatePensionLimits(retirementYear, inflationRate, currentYear);
+            
+            // محاسبه اقلام جدید
+            const newItems = calculateNewItems();
+            const totalNewItems = newItems.total;
+            
+            // محاسبه سهم سنوات گذشته و تأثیر نسبی
+            const relativeImpact = calculateRelativeImpact(baseSalary, totalNewItems, retirementAge, remainingYears, inflationRate);
+            
+            // محاسبه حقوق دو سال پایانی برای دو سناریو
+            const finalYears1 = calculateFinalTwoYears(baseSalary, remainingYears, inflationRate, false, 0);
+            
+            // برای سناریوی دوم، تأثیر مؤثر اقلام جدید را اعمال می‌کنیم
+            const effectiveNewItemsImpact = relativeImpact.effectiveNewItemsImpact;
+            const finalYears2 = calculateFinalTwoYears(baseSalary, remainingYears, inflationRate, true, effectiveNewItemsImpact);
+            
+            // محاسبه حقوق بازنشستگی با پرداخت کامل سنوات گذشته
+            const pensionWithFullPayment = calculatePensionWithFullPayment(baseSalary, totalNewItems, remainingYears, retirementAge, inflationRate, pensionLimits);
+            
+            // اعمال محدودیت کف و سقف بر حقوق بازنشستگی
+            const pensionResult1 = applyPensionLimits(finalYears1.averageSalary, pensionLimits.minPension, pensionLimits.maxPension);
+            const pensionResult2 = applyPensionLimits(finalYears2.averageSalary, pensionLimits.minPension, pensionLimits.maxPension);
+            
+            const finalSalaryScenario1 = pensionResult1.finalPension;
+            const finalSalaryScenario2 = pensionResult2.finalPension;
+            
+            // محاسبه کسور برای دو سناریو با در نظر گرفتن معافیت صندوق کشوری
+            const deductionsScenario1 = calculateDeductions(baseSalary, 0, remainingYears, retirementAge, inflationRate);
+            const deductionsScenario2 = calculateDeductions(baseSalary, totalNewItems, remainingYears, retirementAge, inflationRate);
+            
+            // محاسبه افزایش حقوق بازنشستگی
+            const pensionIncrease = finalSalaryScenario2 - finalSalaryScenario1;
+            const pensionIncreasePercent = finalSalaryScenario1 > 0 ? (pensionIncrease / finalSalaryScenario1) * 100 : 0;
+            
+            // نمایش نتایج
+            
+            // بخش اطلاعات کف و سقف
+            document.getElementById('min-pension-1404').textContent = formatNumber(MIN_PENSION_1404) + ' ریال';
+            document.getElementById('max-pension-1404').textContent = formatNumber(MAX_PENSION_1404) + ' ریال';
+            document.getElementById('min-pension-retirement-year').textContent = formatNumber(Math.round(pensionLimits.minPension)) + ' ریال';
+            document.getElementById('max-pension-retirement-year').textContent = formatNumber(Math.round(pensionLimits.maxPension)) + ' ریال';
+            
+            // بخش جدول محاسبه میانگین حقوق دو سال پایانی
+            document.getElementById('scenario1-base-salary').textContent = formatNumber(Math.round(baseSalary)) + ' ریال';
+            document.getElementById('scenario2-base-salary').textContent = formatNumber(Math.round(baseSalary + effectiveNewItemsImpact)) + ' ریال';
+            
+            document.getElementById('scenario1-year-n-1').textContent = formatNumber(Math.round(finalYears1.salaryYearNMinus1)) + ' ریال';
+            document.getElementById('scenario2-year-n-1').textContent = formatNumber(Math.round(finalYears2.salaryYearNMinus1)) + ' ریال';
+            
+            document.getElementById('scenario1-year-n').textContent = formatNumber(Math.round(finalYears1.salaryYearN)) + ' ریال';
+            document.getElementById('scenario2-year-n').textContent = formatNumber(Math.round(finalYears2.salaryYearN)) + ' ریال';
+            
+            // خطوط حذف شده: نمایش کسور ماهانه سهم کارمند و کارفرما
+            // خطوط حذف شده: نمایش جمع کل کسور سهم کارمند و کارفرما
+            
+            document.getElementById('scenario1-final-salary').textContent = formatNumber(Math.round(finalSalaryScenario1)) + ' ریال';
+            document.getElementById('scenario2-final-salary').textContent = formatNumber(Math.round(finalSalaryScenario2)) + ' ریال';
+            
+            // بخش محاسبه سهم سنوات گذشته و تأثیر نسبی
+            document.getElementById('past-service-years').textContent = relativeImpact.pastServiceYears + ' سال';
+            document.getElementById('future-service-years').textContent = relativeImpact.remainingYears + ' سال';
+            document.getElementById('total-service-years').textContent = relativeImpact.totalServiceYears + ' سال';
+            document.getElementById('relative-impact-percent').textContent = relativeImpact.relativeImpactPercent.toFixed(2) + '%';
+            document.getElementById('total-new-items-amount').textContent = formatNumber(Math.round(totalNewItems)) + ' ریال';
+            document.getElementById('effective-new-items-impact').textContent = formatNumber(Math.round(effectiveNewItemsImpact)) + ' ریال';
+            
+            // نمایش اطلاعات سهم سنوات گذشته (اگر سنوات گذشته وجود دارد)
+            if (relativeImpact.pastServiceYears > 0) {
+                document.getElementById('past-deduction-box').style.display = 'block';
+                document.getElementById('past-employee-deduction').textContent = formatNumber(Math.round(relativeImpact.pastDeduction.employee)) + ' ریال';
+                document.getElementById('past-employer-deduction').textContent = formatNumber(Math.round(relativeImpact.pastDeduction.employer)) + ' ریال';
+                document.getElementById('total-past-deduction').textContent = formatNumber(Math.round(relativeImpact.pastDeduction.total)) + ' ریال';
+                
+                document.getElementById('past-employee-calculation').textContent = `${formatNumber(Math.round(totalNewItems))} × ${selectedPensionFund.employee}% × ${relativeImpact.pastServiceYears} سال`;
+                document.getElementById('past-employer-calculation').textContent = `${formatNumber(Math.round(totalNewItems))} × ${selectedPensionFund.employer}% × ${relativeImpact.pastServiceYears} سال`;
+                document.getElementById('total-past-calculation').textContent = 'مجموع سهم کارمند و کارفرما';
+                
+                // نمایش دو ردیف جدید در بخش پرداخت سنوات گذشته
+                document.getElementById('pension-with-full-payment').textContent = formatNumber(Math.round(pensionWithFullPayment.pensionWithFullPayment)) + ' ریال';
+                document.getElementById('pension-without-full-payment').textContent = formatNumber(Math.round(finalSalaryScenario2)) + ' ریال';
+                
+                document.getElementById('pension-with-full-payment-calculation').textContent = 'محاسبه بر اساس تأثیر 100% اقلام جدید';
+                document.getElementById('pension-without-full-payment-calculation').textContent = 'محاسبه بر اساس تأثیر نسبی';
+            } else {
+                document.getElementById('past-deduction-box').style.display = 'none';
+            }
+            
+            // نمایش اطلاعات معافیت صندوق کشوری
+            if (selectedPensionFund.countryFund && deductionsScenario2.exemptionYears > 0) {
+                document.getElementById('country-fund-exemption-details').style.display = 'block';
+                document.getElementById('exemption-details-content').innerHTML = `
+                    <div class="exemption-row">
+                        <div class="exemption-label">سالهای معافیت از کسور سهم مستخدم:</div>
+                        <div class="exemption-value">${deductionsScenario2.exemptionYears} سال</div>
+                    </div>
+                    <div class="exemption-row">
+                        <div class="exemption-label">مبلغ معافیت ماهانه از کسور حقوق پایه:</div>
+                        <div class="exemption-value">${formatNumber(Math.round(deductionsScenario2.avgMonthlyExemption))} ریال</div>
+                    </div>
+                    <div class="exemption-row">
+                        <div class="exemption-label">کل معافیت تا بازنشستگی:</div>
+                        <div class="exemption-value">${formatNumber(Math.round(deductionsScenario2.totalExemptedAmount))} ریال</div>
+                    </div>
+                    <div class="important-note mt-2">توجه: معافیت فقط برای کسور حقوق پایه است و شامل کسور اقلام جدید نمی‌شود</div>
+                `;
+            } else {
+                document.getElementById('country-fund-exemption-details').style.display = 'none';
+            }
+            
+            // تولید جدول پیش‌بینی سالانه
+            generateYearlyProjection(
+                baseSalary, 
+                totalNewItems, 
+                remainingYears, 
+                inflationRate,
+                selectedPensionFund.employee,
+                selectedPensionFund.employer
+            );
+            
+            // بخش نتیجه‌گیری نهایی
+            let conclusionText = '';
+            
+            if (pensionIncrease > 0) {
+                conclusionText = `با پرداخت کسور اضافی، حقوق بازنشستگی شما ماهانه ${formatNumber(Math.round(pensionIncrease))} ریال (${pensionIncreasePercent.toFixed(2)}%) افزایش می‌یابد. `;
+                
+                // اضافه کردن اطلاعات تأثیر نسبی
+                conclusionText += `با توجه به ${relativeImpact.pastServiceYears} سال خدمت گذشته و ${relativeImpact.remainingYears} سال باقی‌مانده، اقلام جدید تنها ${relativeImpact.relativeImpactPercent.toFixed(2)}% در میانگین حقوق شما تأثیرگذار هستند. `;
+                
+                // اضافه کردن اطلاعات پرداخت کامل سنوات گذشته
+                const pensionDifferenceFullPayment = pensionWithFullPayment.pensionWithFullPayment - finalSalaryScenario2;
+                if (pensionDifferenceFullPayment > 0) {
+                    conclusionText += `در صورت پرداخت کسور سنوات گذشته، حقوق بازنشستگی شما به ${formatNumber(Math.round(pensionWithFullPayment.pensionWithFullPayment))} ریال افزایش خواهد یافت که ${formatNumber(Math.round(pensionDifferenceFullPayment))} ریال بیشتر از حالت عدم پرداخت سنوات گذشته است. `;
+                }
+                
+                if (pensionResult2.limitApplied && pensionResult2.limitType === 'max') {
+                    conclusionText += `اما توجه داشته باشید که حقوق بازنشستگی شما به سقف ${formatNumber(Math.round(pensionLimits.maxPension))} ریال محدود شده است. `;
+                } else if (pensionResult2.limitApplied && pensionResult2.limitType === 'min') {
+                    conclusionText += `حقوق بازنشستگی شما به حداقل ${formatNumber(Math.round(pensionLimits.minPension))} ریال افزایش یافته است.`;
+                } else {
+                    conclusionText += `این افزایش به طور کامل قابل دریافت است و با محدودیت سقف مواجه نمی‌شود.`;
+                }
+                
+                // اضافه کردن اطلاعات کسور اضافی
+                const diffEmployeeDeduction = deductionsScenario2.avgMonthlyEmployeeDeduction - deductionsScenario1.avgMonthlyEmployeeDeduction;
+                const totalEmployeeDeductionDiff = deductionsScenario2.totalEmployeeDeductionUntilRetirement - deductionsScenario1.totalEmployeeDeductionUntilRetirement;
+                
+                conclusionText += ` در مقابل، شما ماهانه ${formatNumber(Math.round(diffEmployeeDeduction))} ریال کسور اضافی پرداخت می‌کنید و در کل ${formatNumber(Math.round(totalEmployeeDeductionDiff))} ریال کسور اضافی تا بازنشستگی پرداخت خواهید کرد.`;
+                
+            } else {
+                conclusionText = `پرداخت کسور اضافی تاثیری در افزایش حقوق بازنشستگی شما ندارد. `;
+                
+                // اضافه کردن اطلاعات تأثیر نسبی
+                conclusionText += `با توجه به ${relativeImpact.pastServiceYears} سال خدمت گذشته و ${relativeImpact.remainingYears} سال باقی‌مانده، اقلام جدید تنها ${relativeImpact.relativeImpactPercent.toFixed(2)}% در میانگین حقوق شما تأثیرگذار هستند. `;
+                
+                // اضافه کردن اطلاعات پرداخت کامل سنوات گذشته
+                const pensionDifferenceFullPayment = pensionWithFullPayment.pensionWithFullPayment - finalSalaryScenario2;
+                if (pensionDifferenceFullPayment > 0) {
+                    conclusionText += `در صورت پرداخت کسور سنوات گذشته، حقوق بازنشستگی شما به ${formatNumber(Math.round(pensionWithFullPayment.pensionWithFullPayment))} ریال افزایش خواهد یافت که ${formatNumber(Math.round(pensionDifferenceFullPayment))} ریال بیشتر از حالت عدم پرداخت سنوات گذشته است. `;
+                }
+                
+                if (pensionResult1.limitApplied || pensionResult2.limitApplied) {
+                    if (pensionResult1.limitType === 'max' || pensionResult2.limitType === 'max') {
+                        conclusionText += `هر دو سناریو با محدودیت سقف ${formatNumber(Math.round(pensionLimits.maxPension))} ریال مواجه هستند.`;
+                    } else {
+                        conclusionText += `هر دو سناریو با محدودیت حداقل ${formatNumber(Math.round(pensionLimits.minPension))} ریال مواجه هستند.`;
+                    }
+                }
+                
+                const diffEmployeeDeduction = deductionsScenario2.avgMonthlyEmployeeDeduction - deductionsScenario1.avgMonthlyEmployeeDeduction;
+                const totalEmployeeDeductionDiff = deductionsScenario2.totalEmployeeDeductionUntilRetirement - deductionsScenario1.totalEmployeeDeductionUntilRetirement;
+                
+                conclusionText += ` با این حال، شما ماهانه ${formatNumber(Math.round(diffEmployeeDeduction))} ریال کسور اضافی پرداخت می‌کنید و در کل ${formatNumber(Math.round(totalEmployeeDeductionDiff))} ریال کسور اضافی تا بازنشستگی پرداخت خواهید کرد.`;
+            }
+            
+            // اضافه کردن اطلاعات معافیت صندوق کشوری
+            if (selectedPensionFund.countryFund && deductionsScenario2.exemptionYears > 0) {
+                conclusionText += ` <span class="important-note">با توجه به تعلق به صندوق کشوری، در ${deductionsScenario2.exemptionYears} سال پایانی خدمت، ماهانه ${formatNumber(Math.round(deductionsScenario2.avgMonthlyExemption))} ریال از کسور سهم مستخدم معاف هستید که در مجموع ${formatNumber(Math.round(deductionsScenario2.totalExemptedAmount))} ریال معافیت خواهید داشت.</span>`;
+            }
+            
+            // اضافه کردن اطلاعات پرداخت سنوات گذشته
+            if (relativeImpact.pastServiceYears > 0 && relativeImpact.pastDeduction.total > 0) {
+                conclusionText += ` <span class="important-note">در صورت تمایل به تأثیرگذاری کامل اقلام جدید (۱۰۰٪)، می‌توانید مبلغ ${formatNumber(Math.round(relativeImpact.pastDeduction.total))} ریال برای سنوات گذشته پرداخت نمایید.</span>`;
+            }
+            
+            document.getElementById('final-conclusion-text').innerHTML = conclusionText;
+            
+            // نمایش کارت نتایج
+            document.getElementById('result-container').style.display = 'block';
+            
+            // اسکرول به قسمت نتایج
+            document.getElementById('result-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // تابع بازنشانی فرم
+        function resetForm() {
+            // بازنشانی فیلدهای اصلی
+            document.getElementById('employee-insurance').value = '';
+            document.getElementById('last-salary').value = '';
+            
+            // بازنشانی فیلدهای اقلام جدید
+            document.getElementById('area-allowance').value = '';
+            document.getElementById('overtime').value = '';
+            document.getElementById('shift-work').value = '';
+            document.getElementById('welfare-payments').value = '';
+            document.getElementById('part-time-teaching').value = '';
+            
+            // بازنشانی سایر فیلدها
+            document.getElementById('retirement-age').value = '35';
+            document.getElementById('remaining-years').value = '5';
+            document.getElementById('inflation-rate').value = '20';
+            
+            // بازنشانی انتخاب‌ها
+            document.querySelectorAll('.pension-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            selectedPensionFund = null;
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('country-fund-exemption-details').style.display = 'none';
+            document.getElementById('past-deduction-box').style.display = 'none';
+            
+            // بازنشانی اطلاعات کسور
+            updateDeductionInfo();
+            
+            // بازنشانی جدول پیش‌بینی
+            document.getElementById('yearly-projection-body').innerHTML = '';
+        }
+
+        // افزودن رویداد برای فرمت‌دهی اعداد هنگام ورود
+        document.querySelectorAll('.formatted-number').forEach(input => {
+            input.addEventListener('input', function(e) {
+                // تبدیل اعداد فارسی و عربی به انگلیسی
+                let value = convertPersianToEnglishNumbers(this.value);
+                
+                // حذف همه کاراکترهای غیرعددی
+                value = value.replace(/[^\d]/g, '');
+                
+                if (value) {
+                    const number = parseInt(value, 10);
+                    this.value = formatNumber(number);
+                } else {
+                    this.value = '';
+                }
+            });
+        });
+
+        // تغییر مهم: اجازه ورود صفر برای نرخ تورم
+        document.getElementById('inflation-rate').addEventListener('input', function(e) {
+            // تبدیل اعداد فارسی و عربی به انگلیسی
+            let value = convertPersianToEnglishNumbers(this.value);
+            
+            // حذف همه کاراکترهای غیرعددی به جز نقطه برای اعداد اعشاری
+            value = value.replace(/[^\d.]/g, '');
+            
+            if (value === '' || value === '0' || value === '0.') {
+                this.value = value;
+            } else if (value) {
+                // بررسی اینکه آیا یک عدد معتبر است
+                const number = parseFloat(value);
+                if (!isNaN(number)) {
+                    this.value = number;
+                }
+            }
+        });
+
+        // اضافه کردن رویداد برای هشدار سقف پرداختی‌های رفاهی
+        document.getElementById('welfare-payments').addEventListener('input', function() {
+            const value = parseFormattedNumber(this.value);
+            if (value > MAX_WELFARE_PAYMENT) {
+                this.classList.add('is-invalid');
+                this.nextElementSibling.innerHTML = `<span class="text-danger">مبلغ وارد شده بیشتر از سقف مجاز (${formatNumber(MAX_WELFARE_PAYMENT)} ریال) است. در محاسبات، سقف ${formatNumber(MAX_WELFARE_PAYMENT)} ریال اعمال خواهد شد.</span>`;
+            } else {
+                this.classList.remove('is-invalid');
+                this.nextElementSibling.innerHTML = `کسور: 0% سهم کارمند + 0% سهم کارفرما (سقف: ${formatNumber(MAX_WELFARE_PAYMENT)} ریال)`;
+            }
+        });
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPensionFunds();
+            
+            // اضافه کردن رویداد به دکمه محاسبه
+            document.getElementById('calculate-btn').addEventListener('click', calculateInsurance);
+            
+            // اضافه کردن رویداد به دکمه بازنشانی
+            document.getElementById('reset-btn').addEventListener('click', resetForm);
+            
+            // اضافه کردن رویداد Enter برای محاسبه
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateInsurance();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
