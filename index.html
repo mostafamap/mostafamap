@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد برنامه‌های من</title>
+    <style>
+        * {
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .program-list {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .program-item {
+            background: white;
+            margin: 15px 0;
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .program-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .program-link {
+            display: block;
+            text-decoration: none;
+            color: #1a73e8;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .program-link:hover {
+            color: #0d47a1;
+        }
+    </style>
+</head>
+<body>
+    <h1>🖥️ برنامه‌های من</h1>
+    
+    <ul class="program-list">
+        <!-- برنامه ۱: ماشین حساب -->
+        <li class="program-item">
+            <a class="program-link" href="calculator.html">🧮 ماشین حساب</a>
+            <p style="color:#666; margin-top:5px;">یک ماشین حساب ساده و کاربردی</p>
+        </li>
+        
+        <!-- برنامه ۲: لیست کارها -->
+        <li class="program-item">
+            <a class="program-link" href="todo-list.html">✅ لیست کارهای روزانه</a>
+            <p style="color:#666; margin-top:5px;">مدیریت و پیگیری کارهای روزمره</p>
+        </li>
+        
+        <!-- برنامه ۳: نظرسنجی -->
+        <li class="program-item">
+            <a class="program-link" href="poll.html">📊 سیستم نظرسنجی</a>
+            <p style="color:#666; margin-top:5px;">ایجاد و مدیریت نظرسنجی</p>
+        </li>
+        
+        <!-- برنامه ۴: تبدیل واحد -->
+        <li class="program-item">
+            <a class="program-link" href="unit-converter.html">📐 تبدیل واحدهای اندازه‌گیری</a>
+            <p style="color:#666; margin-top:5px;">تبدیل طول، وزن، دما و ...</p>
+        </li>
+    </ul>
+</body>
+</html>
